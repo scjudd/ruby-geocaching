@@ -33,18 +33,23 @@ require "hpricot"
 #  p log.username #=> Foobar
 #
 module Geocaching
+  # All exceptions raised by this library are subclasses of this class.  It
+  # easily allows to rescue from all exceptions by catching Geocaching::Error.
+  class Error < Exception
+  end
+
   # This exception is raised when a method that requires being
   # logged in is called when not logged in.
-  class LoginError < Exception
+  class LoginError < Error
   end
 
   # This exception is raised when a timeout is hit.
-  class TimeoutError < Exception
+  class TimeoutError < Error
   end
 
   # This exception is raised when a method is called that requires
   # the +#fetch+ method to be called first.
-  class NotFetchedError < Exception
+  class NotFetchedError < Error
     def initialize
       super "Need to call the #fetch method first"
     end
@@ -53,11 +58,11 @@ module Geocaching
   # This exception is raised when information could not be
   # extracted out of the website’s HTML code.  For example,
   # this may happen if Groundspeak changed their website.
-  class ExtractError < Exception
+  class ExtractError < Error
   end
 
   # This exception is raised when a HTTP request fails.
-  class HTTPError < Exception
+  class HTTPError < Error
   end
 
   autoload :HTTP, "geocaching/http"
