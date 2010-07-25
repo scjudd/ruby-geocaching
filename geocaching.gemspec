@@ -18,4 +18,6 @@ EOD
   s.files       = %w(README.markdown Rakefile geocaching.gemspec)
   s.files      += Dir.glob("lib/**/*")
   s.files      += Dir.glob("spec/**/*")
+
+  s.add_dependency "hpricot", ">= 0.8.2"
 end
