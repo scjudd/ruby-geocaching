@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "cgi"
 require "net/http"
 require "timeout"
@@ -54,7 +56,9 @@ module Geocaching
       #
       # @return [String] The converted string
       def unescape(str)
-        CGI.unescapeHTML(str.gsub(/&#(\d{3});/) { [$1.to_i].pack("U") })
+        str
+          .force_encoding("UTF-8")
+          .gsub(/&#(\d{3});/) { [$1.to_i].pack("U") }
       end
     end
 

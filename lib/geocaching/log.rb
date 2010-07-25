@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Geocaching
   # This class represents a log on geocaching.com.
   class Log

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 unless ENV["GC_USERNAME"] and ENV["GC_PASSWORD"]
   $stderr.puts "You need to provide your geocaching.com account credentials"
   $stderr.puts "by setting the environment variables GC_USERNAME and GC_PASSWORD."

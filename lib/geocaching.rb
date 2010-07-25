@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "hpricot"
 
 # This is a Ruby library to access information on geocaching.com.  As
