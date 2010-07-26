@@ -56,9 +56,9 @@ module Geocaching
       #
       # @return [String] The converted string
       def unescape(str)
-        str
-          .force_encoding("UTF-8")
-          .gsub(/&#(\d{3});/) { [$1.to_i].pack("U") }
+        str = str.force_encoding("UTF-8")
+        str = str.gsub(/&#(\d{3});/) { [$1.to_i].pack("U") }
+        CGI.unescapeHTML(str)
       end
     end
 
