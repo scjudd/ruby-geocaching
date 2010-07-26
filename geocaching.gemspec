@@ -18,5 +18,5 @@ EOD
   s.files      += Dir.glob("lib/**/*")
   s.files      += Dir.glob("spec/**/*")
 
-  s.add_dependency "hpricot", ">= 0.8.2"
+  s.add_dependency "nokogiri", ">= 1.4.2"
 end
