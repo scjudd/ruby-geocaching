@@ -72,7 +72,7 @@ module Geocaching
       raise ArgumentError, "Neither code nor GUID given" unless @code or @guid
 
       resp, @data = HTTP.get(path)
-      @doc = Hpricot(@data)
+      @doc = Nokogiri::HTML.parse(@data)
     end
 
     # Whether information have successfully been fetched
@@ -93,7 +93,7 @@ module Geocaching
         raise NotFetchedError unless fetched?
         elements = @doc.search("#ctl00_uxWaypointName.GCCode")
 
-        if elements.size == 1 and elements.first.inner_html =~ /(GC[A-Z0-9]+)/
+        if elements.size == 1 and elements.first.content =~ /(GC[A-Z0-9]+)/
           HTTP.unescape($1)
         else
           raise ExtractError, "Could not extract code from website"
@@ -113,7 +113,7 @@ module Geocaching
         elements = @doc.search("#ctl00_ContentBody_lnkPrintFriendly")
         guid = nil
 
-        if elements.size == 1 and href = elements.first.attributes["href"]
+        if elements.size == 1 and href = elements.first["href"]
           guid = $1 if href =~ /guid=([0-9a-f-]{36})/
         end
 
@@ -151,7 +151,7 @@ module Geocaching
         elements = @doc.search("span#ctl00_ContentBody_CacheName")
 
         if elements.size == 1
-          HTTP.unescape(elements.first.inner_html)
+          HTTP.unescape(elements.first.content)
         else
           raise ExtractError, "Could not extract name from website"
         end
@@ -241,7 +241,7 @@ module Geocaching
         latitude = nil
         elements = @doc.search("a#ctl00_ContentBody_lnkConversions")
 
-        if elements.size == 1 and href = elements.first.attributes["href"]
+        if elements.size == 1 and href = elements.first["href"]
           latitude = $1.to_f if href =~ /lat=(-?[0-9\.]+)/
         end
 
@@ -263,7 +263,7 @@ module Geocaching
         longitude = nil
         elements = @doc.search("a#ctl00_ContentBody_lnkConversions")
 
-        if elements.size == 1 and href = elements.first.attributes["href"]
+        if elements.size == 1 and href = elements.first["href"]
           longitude = $1.to_f if href =~ /lon=(-?[0-9\.]+)/
         end
 

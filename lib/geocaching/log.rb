@@ -54,7 +54,7 @@ module Geocaching
       raise LoginError, "Need to be logged in to fetch log information" unless HTTP.loggedin?
 
       resp, @data = HTTP.get(path)
-      @doc = Hpricot(@data)
+      @doc = Nokogiri::HTML.parse(@data)
     end
 
     # Whether information have successfully been fetched
@@ -152,7 +152,7 @@ module Geocaching
 
     def meta
       @meta ||= begin
-        elements = @doc.search("meta").select { |e| e.attributes["name"] =~ /^og:/ }.flatten
+        elements = @doc.search("meta").select { |e| e["name"] =~ /^og:/ }.flatten
         info = {}
 
         elements.each do |element|
