@@ -13,7 +13,6 @@ EOD
   s.homepage    = "http://nano.github.com/geocaching"
 
   s.has_rdoc    = false
-  s.has_yardoc  = true
 
   s.files       = %w(README.markdown Rakefile geocaching.gemspec)
   s.files      += Dir.glob("lib/**/*")
