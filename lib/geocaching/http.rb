@@ -6,8 +6,21 @@ require "timeout"
 
 module Geocaching
   class HTTP
+    # An array of user agent strings.  A random one is chosen.
+    USER_AGENTS = [
+      "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)",
+      "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)",
+      "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)",
+      "Mozilla/5.0 (compatible; Konqueror/3.2; Linux 2.6.2) (KHTML, like Gecko)",
+      "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8",
+      "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13",
+      "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10",
+      "Mozilla/5.0 (X11; U; Linux i586; en-US; rv:1.7.3) Gecko/20040924 Epiphany/1.4.4 (Ubuntu)",
+      "Opera/9.80 (Macintosh; Intel Mac OS X; U; en) Presto/2.2.15 Version/10.00"
+    ]
+
     # The user agent sent with each request.
-    @user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.13) Gecko/2009073022 Firefox/3.0.13 (.NET CLR 3.5.30729)"
+    @user_agent = nil
 
     # Timeout for sending and receiving HTTP data.
     @timeout = 8
@@ -201,12 +214,22 @@ module Geocaching
       meta
     end
 
+    # Returns the user agent string to use for the HTTP requests.  If no
+    # user agent is set explicitly, a random one is chosen.
+    #
+    # @return [String] User agent
+    def user_agent
+      @user_agent ||= begin
+        self.class.user_agent || USER_AGENTS.shuffle.first
+      end
+    end
+
     # Returns an hash with the HTTP headers sent with each request.
     #
     # @return [Hash] Default HTTP headers
     def default_header
       {
-        "User-Agent" => self.class.user_agent
+        "User-Agent" => user_agent
       }
     end
 
