@@ -219,9 +219,7 @@ module Geocaching
     #
     # @return [String] User agent
     def user_agent
-      @user_agent ||= begin
-        self.class.user_agent || USER_AGENTS.shuffle.first
-      end
+      self.class.user_agent ||= USER_AGENTS.shuffle.first
     end
 
     # Returns an hash with the HTTP headers sent with each request.
