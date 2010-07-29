@@ -201,7 +201,7 @@ module Geocaching
       @hidden_at ||= begin
         raise NotFetchedError unless fetched?
 
-        if @data =~ /<strong>\s+?Hidden\s+?:<\/strong>\s+?(\d{1,2})\/(\d{1,2})\/(\d{4})/
+        if @data =~ /<strong>\s*?Hidden\s*?:\s*?<\/strong>\s*?(\d{1,2})\/(\d{1,2})\/(\d{4})/
           Time.parse([$3, $1, $2].join("-"))
         else
           raise ExtractError, "Could not extract hidden date from website"
