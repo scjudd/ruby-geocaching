@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require "time"
-
 module Geocaching
   # This class is subclass of Array and is used to store all logs
   # that belong to a cache.  It implements the {#fetch_all} method to
@@ -202,7 +200,7 @@ module Geocaching
         raise NotFetchedError unless fetched?
 
         if @data =~ /<strong>\s*?Hidden\s*?:\s*?<\/strong>\s*?(\d{1,2})\/(\d{1,2})\/(\d{4})/
-          Time.parse([$3, $1, $2].join("-"))
+          Time.mktime($3, $1, $2)
         else
           raise ExtractError, "Could not extract hidden date from website"
         end

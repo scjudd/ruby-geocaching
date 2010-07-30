@@ -39,7 +39,7 @@ share_as :GCF00 do
   end
 
   it "should return the correct hidden at date" do
-    @cache.hidden_at.should == Time.parse("2001-07-05")
+    @cache.hidden_at.should == Time.mktime(2001, 07, 05)
   end
 
   it "should return the correct location" do
