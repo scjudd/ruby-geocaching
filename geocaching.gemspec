@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "geocaching"
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.summary = "API for geocaching.com"
   s.description = "A Ruby library that provides an API for information on geocaching.com"
