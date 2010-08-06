@@ -312,7 +312,9 @@ module Geocaching
     def pmonly?
       @is_pmonly ||= begin
         raise NotFetchedError unless fetched?
-        !!(@data =~ /<p class="Warning">This is a Premium Member Only cache\.<\/p>/)
+
+        @doc.search("#ctl00_ContentBody_basicMemberMsg").size == 1 ||
+          !!(@data =~ /<p class="Warning">This is a Premium Member Only cache\.<\/p>/)
       end
     end
 
