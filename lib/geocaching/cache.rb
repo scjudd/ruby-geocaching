@@ -312,7 +312,7 @@ module Geocaching
     def pmonly?
       @is_pmonly ||= begin
         raise NotFetchedError unless fetched?
-        !!(@data =~ /<p class="Warning">Sorry, the owner of this listing has made it viewable to Premium Members only\./)
+        !!(@data =~ /<p class="Warning">This is a Premium Member Only cache\.<\/p>/)
       end
     end
 
