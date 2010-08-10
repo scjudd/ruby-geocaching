@@ -6,6 +6,8 @@ unless ENV["GC_USERNAME"] and ENV["GC_PASSWORD"]
   exit 1
 end
 
+Geocaching::HTTP.timeout = ENV["GC_TIMEOUT"].to_i if ENV["GC_TIMEOUT"]
+
 begin
   Geocaching::HTTP.login(ENV["GC_USERNAME"], ENV["GC_PASSWORD"])
 rescue Geocaching::Error => e
