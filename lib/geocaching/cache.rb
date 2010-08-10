@@ -140,6 +140,15 @@ module Geocaching
       end
     end
 
+    # The cache’s type.
+    #
+    # @return [Geocaching::CacheType] Type
+    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
+    # @raise [Geocaching::ExtractError] Could not extract cache type ID from website
+    def type
+      @type ||= CacheType.for_id(type_id)
+    end
+
     # The cache’s name.
     #
     # @return [String] Name
@@ -255,6 +264,7 @@ module Geocaching
     def latitude
       @latitude ||= begin
         raise NotFetchedError unless fetched?
+        return nil if type == :locationless
 
         latitude = nil
         elements = @doc.search("a#ctl00_ContentBody_lnkConversions")
@@ -277,6 +287,7 @@ module Geocaching
     def longitude
       @longitude ||= begin
         raise NotFetchedError unless fetched?
+        return nil if type == :locationless
 
         longitude = nil
         elements = @doc.search("a#ctl00_ContentBody_lnkConversions")
@@ -299,6 +310,7 @@ module Geocaching
     def location
       @location ||= begin
         raise NotFetchedError unless fetched?
+        return nil if type == :locationless
 
         location = nil
         elements = @doc.search("span#ctl00_ContentBody_Location")
