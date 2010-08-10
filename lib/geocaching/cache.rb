@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require "time"
+
 module Geocaching
   # This class is subclass of Array and is used to store all logs
   # that belong to a cache.  It implements the {#fetch_all} method to
@@ -203,6 +205,24 @@ module Geocaching
           Time.mktime($3, $1, $2)
         else
           raise ExtractError, "Could not extract hidden date from website"
+        end
+      end
+    end
+
+    # The date the event has been held.
+    #
+    # @return [Time] Event date
+    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
+    # @raise [Geocaching::ExtractError] Could not extract event date from website
+    def event_date
+      @event_date ||= begin
+        raise NotFetchedError unless fetched?
+        return nil unless [:event, :megaevent, :cito, :lfevent].include?(type.to_sym)
+
+        if @data =~ /<strong>\s*?Event Date:\s*?<\/strong>\s*?\w+, (\d+) (\w+) (\d{4})/
+          Time.parse([$1, $2, $3].join)
+        else
+          raise ExtractError, "Could not extract event date from website"
         end
       end
     end
