@@ -218,7 +218,7 @@ module Geocaching
         size = nil
 
         if @data =~ /<img src="\/images\/icons\/container\/(.*?)\.gif" alt="Size: .*?" \/>/
-          size = $1.to_sym if %w(micro small regular large other not_chosen).include?($1)
+          size = $1.to_sym if %w(micro small regular large other not_chosen virtual).include?($1)
         end
 
         size || begin
