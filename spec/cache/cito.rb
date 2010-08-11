@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-describe "Geocaching::Cache for c52ff346-4567-4865-a230-c136843049e5" do
+describe "Geocaching::Cache for c52ff346-4567-4865-a230-c136843049e5 (CITO)" do
   before :all do
     @cache = Geocaching::Cache.fetch(:guid => "c52ff346-4567-4865-a230-c136843049e5")
   end
