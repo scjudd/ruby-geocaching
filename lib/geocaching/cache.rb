@@ -361,18 +361,29 @@ module Geocaching
         raise NotFetchedError unless fetched?
 
         logs = LogsArray.new
-        elements = @doc.search("table.Table.LogsTable > tr > td > strong")
+        tds = @doc.search("table.Table.LogsTable > tr > td")
 
-        if elements.size == 0
+        if tds.size == 0
           raise ExtractError, "Could not extract logs from website"
         end
 
-        elements.each do |node|
-          img = node.search("img")
-          a = node.search("a")
+        tds.each do |td|
+          strongs = td.search("strong")
+          next unless strongs.size > 0
 
-          title = img[0]["title"] if img.size == 1 and img[0]["title"]
-          guid = $1 if a.size == 1 and a[0]["href"] and a[0]["href"] =~ /guid=([a-f0-9-]{36})/
+          imgs = strongs.first.search("img")
+          as = strongs.first.search("a")
+
+          unless imgs.size == 1 and as.size == 1
+            raise ExtractError, "Could not extract logs from website"
+          end
+
+          title = imgs.first["title"]
+          guid = as.first["href"] =~ /guid=([a-f0-9-]{36})/ ? $1 : nil
+
+          unless title and guid
+            raise ExtractError, "Could not extract logs from website"
+          end
 
           logs << Log.new(:guid => guid, :title => title, :cache => self)
         end
