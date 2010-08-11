@@ -1,10 +1,9 @@
-Ruby library for accessing geocaching.com information
-=====================================================
+Ruby API for geocaching.com
+===========================
 
-This Ruby library provides access to cache and log information
-on geocaching.com.  It works by parsing the website’s content as
-Groundspeak does not offer an API yet.
-
+This Ruby library provides an API for geocaching.com.  As Groundspeak
+doesn’t offer an official API yet, this library parses the website’s
+HTML code.
 
 Example
 -------
@@ -28,7 +27,6 @@ Example
 
 Altough some cache information are available without being logged in,
 most information will only be accessible after a successful login.
-
 
 Tests
 -----
