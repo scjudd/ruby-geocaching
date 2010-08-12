@@ -23,6 +23,12 @@ module Geocaching
       end
     end
 
+    def self.for_title(title)
+      if info = TYPES.to_a.select { |(k,v)| v[1] == title } and info.size == 1
+        new(info.first)
+      end
+    end
+
     def initialize(info)
       @info = info
     end
