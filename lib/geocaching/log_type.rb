@@ -45,6 +45,10 @@ module Geocaching
       @info[1][1]
     end
 
+    def to_s
+      description
+    end
+
     def to_sym
       @info[0]
     end
