@@ -30,9 +30,13 @@ module Geocaching
       @data, @doc, @guid, @cache = nil, nil, nil, nil
 
       attributes.each do |key, value|
-        if [:guid, :title, :cache].include?(key)
+        if [:guid, :title, :date, :cache].include?(key)
           if key == :cache and not value.kind_of?(Geocaching::Cache)
             raise TypeError, "Attribute `cache' must be an instance of Geocaching::Cache"
+          end
+
+          if key == :date and not value.kind_of?(Time)
+            raise TypeError, "Attribute `type' must be an instance of Time"
           end
 
           instance_variable_set("@#{key}", value)
@@ -82,6 +86,8 @@ module Geocaching
 
     def title
       @title ||= begin
+        raise NotFetchedError unless fetched?
+
         imgs = @doc.search("#ctl00_ContentBody_LogBookPanel1_LogImage")
 
         unless imgs.size == 1 and imgs.first["alt"]

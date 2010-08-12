@@ -54,7 +54,11 @@ module Geocaching
       @data, @doc, @code, @guid = nil, nil, nil, nil
 
       attributes.each do |key, value|
-        if [:code, :guid].include?(key)
+        if [:code, :guid, :name, :type].include?(key)
+          if key == :type and not value.kind_of?(CacheType)
+            raise TypeError, "Attribute `type' must be an instance of Geocaching::CacheType"
+          end
+
           instance_variable_set("@#{key}", value)
         else
           raise ArgumentError, "Trying to set unknown attribute `#{key}'"
