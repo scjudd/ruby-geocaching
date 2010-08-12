@@ -71,4 +71,5 @@ module Geocaching
   autoload :Cache, "geocaching/cache"
   autoload :CacheType, "geocaching/cache_type"
   autoload :Log, "geocaching/log"
+  autoload :LogType, "geocaching/log_type"
 end

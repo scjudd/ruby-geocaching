@@ -1,0 +1,28 @@
+# encoding: utf-8
+
+describe "Geocaching::Log for 1758e5da-b49f-4a0a-b435-d12cd8d66e86 (Disable Listing)" do
+  before :all do
+    @log = Geocaching::Log.fetch(:guid => "1758e5da-b49f-4a0a-b435-d12cd8d66e86")
+  end
+
+  it "should return the correct username" do
+    @log.username.should == "Cermak"
+  end
+
+  it "should return the correct cache GUID" do
+    @log.cache.guid.should == "66274935-40d5-43d8-8cc3-c819e38f9dcc"
+  end
+
+  it "should return the correct type" do
+    @log.type.to_sym.should == :disable
+  end
+
+  it "should return the correct date" do
+    @log.date.should == Time.mktime(2010, 2, 27)
+  end
+
+  it "should return the correct message" do
+    should_message = File.read(__FILE__.gsub(/rb$/, "txt"))
+    @log.message.should == should_message.gsub(/\r\n/, "\n")
+  end
+end

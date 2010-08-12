@@ -1,0 +1,1 @@
+As I wrote in found log, the cache might be returned to the proper place.  Also the thing to fix the cache to tha point is degraded.

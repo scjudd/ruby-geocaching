@@ -76,8 +76,20 @@ module Geocaching
       end
     end
 
+    def type
+      @type ||= LogType.for_title(title)
+    end
+
     def title
-      @title
+      @title ||= begin
+        imgs = @doc.search("#ctl00_ContentBody_LogBookPanel1_LogImage")
+
+        unless imgs.size == 1 and imgs.first["alt"]
+          raise ExtractError, "Could not extract title from website"
+        end
+
+        imgs.first["alt"]
+      end
     end
 
     # The name of the user that has posted this log.
@@ -95,6 +107,20 @@ module Geocaching
           HTTP.unescape(elements.first.inner_html)
         else
           raise ExtractError, "Could not extract username from website"
+        end
+      end
+    end
+
+    def date
+      @date ||= begin
+        raise NotFetchedError unless fetched?
+
+        elements = @doc.search("#ctl00_ContentBody_LogBookPanel1_LogDate")
+
+        if elements.size == 1
+          Time.parse(elements.first.content)
+        else
+          raise ExtractError, "Could not extract date from website"
         end
       end
     end
