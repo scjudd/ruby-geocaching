@@ -54,7 +54,7 @@ describe "Geocaching::Cache for 4ee2c3a1-96e3-4ce0-ad2b-094a51cb3f46 (Multi)" do
   end
 
   it "should return the correct number of logs" do
-    @cache.logs.size.should == 504
+    @cache.logs.size.should == 505
   end
 
   it "should return cache has been archived" do
