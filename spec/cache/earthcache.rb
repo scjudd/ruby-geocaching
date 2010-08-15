@@ -13,6 +13,14 @@ describe "Geocaching::Cache for e34a5b69-51a1-4ed4-838d-e3c3cb75a35a (EarthCache
     @cache.name.should == "Kniepsand Amrum (Earthcache)"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "Ifranipop"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "4fcca7ab-b4c7-42ee-86d6-c61056a9263e"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :earthcache
   end

@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 9ce22167-5a8d-451c-a69b-b19d5ec4f578 (Locationle
     @cache.name.should == "die letzte ihrer art?"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "alexem+sonja+der rote elephant"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "87709ecd-09da-44d7-abc3-1ef36921f8e7"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :locationless
   end

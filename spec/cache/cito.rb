@@ -13,6 +13,14 @@ describe "Geocaching::Cache for c52ff346-4567-4865-a230-c136843049e5 (CITO)" do
     @cache.name.should == "1. Dresdner CITO"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "GPS-Murmel, afrineo, Karrataka"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "b2fcf494-ecb8-4862-a279-03a325f6e1a1"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :cito
   end

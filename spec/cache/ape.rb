@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 7d120ae2-855c-430d-9c14-3d7427de4bdd (Project A.
     @cache.name.should == "Mission 9: Tunnel of Light"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "Project APE (maintained by Moun10Bike)"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "47975ebd-efc1-40d6-94c1-b379a6221a8f"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :ape
   end

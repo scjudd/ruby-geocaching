@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 01328a57-5a04-4e69-a1cc-ce0eeaa452f5 (Letterbox)
     @cache.name.should == "Worzeldorfer Gebirge (Letterbox)"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "numakeh (location by gsteinacher)"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "d60bf869-8cc2-4e38-a349-9423f7d65427"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :letterbox
   end

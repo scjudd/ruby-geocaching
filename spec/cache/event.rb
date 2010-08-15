@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 6cea30b1-7279-43ac-86a8-cdfd1daeb348 (Event)" do
     @cache.name.should == "Weihnachtliches Vorglühen"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "papasid"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "80b63301-073e-4cf7-af23-2fb162915878"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :event
   end

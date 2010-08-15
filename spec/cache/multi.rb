@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 4ee2c3a1-96e3-4ce0-ad2b-094a51cb3f46 (Multi)" do
     @cache.name.should == "MITTELERDE I - DUESTERWALD"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "123MAINE"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "50da2530-3756-4eb9-9af4-429fb998be3c"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :multi
   end

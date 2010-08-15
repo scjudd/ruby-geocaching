@@ -171,6 +171,24 @@ module Geocaching
       end
     end
 
+    def owner
+      @owner ||= begin
+        raise NotFetchedError unless fetched?
+
+        if @data =~ /<strong>\s*?A[(n\s*?Event)]*\s*?cache\s*?<\/strong>\s*?by\s*?<a.*?guid=([a-f0-9-]{36}).*?>(.*?)<\/a>/
+          @owner_display_name = HTTP.unescape($2)
+          User.new(:guid => $1)
+        else
+          raise ExtractError, "Could not extract owner from website"
+        end
+      end
+    end
+
+    def owner_display_name
+      owner unless @owner_display_name
+      @owner_display_name
+    end
+
     # The cache’s difficulty rating.
     #
     # @return [Float] Difficulty rating

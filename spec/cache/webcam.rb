@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 8cd0976c-42cf-40a2-ae02-ed87ad52d5b1 (Webcam)" d
     @cache.name.should == "Versteckte Kamera"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "buddler"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "aa82755c-0ee2-4b7b-8e1c-53217cd5b446"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :webcam
   end

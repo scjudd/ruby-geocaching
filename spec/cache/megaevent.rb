@@ -13,6 +13,14 @@ describe "Geocaching::Cache for b60781d0-0933-426d-9a67-80eb855e87ef (Mega Event
     @cache.name.should == "Pinzgau 2010"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "Pinzgauer Geocacher"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "ba75bb32-16e5-473d-8fbc-e3dde88dd759"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :megaevent
   end

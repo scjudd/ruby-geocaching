@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 32512f3a-0fc2-45df-943b-af0a6f17f1fa (Lost and F
     @cache.name.should == "10 Jahre! Nürnberg, Germany"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "team-noris"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "c3d17887-2925-4ff0-9fa6-dccb86d48d3f"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :lfevent
   end

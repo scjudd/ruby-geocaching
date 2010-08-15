@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 66274935-40d5-43d8-8cc3-c819e38f9dcc (Traditiona
     @cache.name.should == "Bridge Over Troubled Waters"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "Cermak"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "07eae57b-a6c2-4a8d-a1c9-667c63dccfca"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :traditional
   end

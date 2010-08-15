@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 6128b8a1-2ed3-48f0-9e05-a7117c5faffc (Wherigo)" 
     @cache.name.should == "Pegnitztal"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "OLN"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "969ca2db-d6ed-4e26-a83f-9cf336ff815a"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :wherigo
   end

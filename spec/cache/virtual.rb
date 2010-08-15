@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 4e8b79e1-ffb2-4845-9c24-5ef54137a9b9 (Virtual)" 
     @cache.name.should == "Buecherturm"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "cosmic bob"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "176be429-73f6-4812-99b0-aec77ee754d8"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :virtual
   end

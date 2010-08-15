@@ -13,6 +13,14 @@ describe "Geocaching::Cache for 1d86cace-bada-435a-817a-f841718d7754 (Mystery)" 
     @cache.name.should == "Nordstadt-Matrix"
   end
 
+  it "should return the correct displayed owner name" do
+    @cache.owner_display_name.should == "CachingFoX"
+  end
+
+  it "should return the correct owner GUID" do
+    @cache.owner.guid == "9c360222-40d7-48be-8dc7-1d4fe5a2d37c"
+  end
+
   it "should return the correct cache type" do
     @cache.type.to_sym.should == :mystery
   end
