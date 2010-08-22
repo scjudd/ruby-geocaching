@@ -1,11 +1,28 @@
 module Geocaching
+  # This class provides access to the logs the user currently logged in
+  # has written.
+  #
+  #  mylogs = Geocaching::MyLogs.fetch
+  #  puts "I've written #{mylogs.size} logs."
   class MyLogs
+    # Create a new instance and call {fetch} afterwards.
+    #
+    # @return [Geocaching::MyLogs]
+    # @raise [Geocaching::LoginError] Need to be logged in to fetch own logs
+    # @raise [Geocaching::TimeoutError] Timeout hit
+    # @raise [Geocaching::HTTPError] HTTP request failed
     def self.fetch
       mylogs = new
       mylogs.fetch
       mylogs
     end
 
+    # Fetch logs from geocaching.com.
+    #
+    # @return [void]
+    # @raise [Geocaching::LoginError] Need to be logged in to fetch own logs
+    # @raise [Geocaching::TimeoutError] Timeout hit
+    # @raise [Geocaching::HTTPError] HTTP request failed
     def fetch
       raise LoginError, "Need to be logged in to fetch your logs" unless HTTP.loggedin?
 
@@ -13,10 +30,19 @@ module Geocaching
       @doc = Nokogiri::HTML.parse(@data)
     end
 
+    # Return whether logs have successfully been fetched from
+    # geocaching.com.
+    #
+    # @return [Boolean]
     def fetched?
       @data and @doc
     end
 
+    # Return an array of logs the user you’re logged in with has
+    # written.
+    #
+    # @return [Array<Geocaching::Log>]
+    # @raise [Geocaching::NotFetchedError] Need to call {fetch} first.
     def logs
       @logs ||= begin
         raise NotFetchedError unless fetched?

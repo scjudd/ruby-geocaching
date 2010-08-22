@@ -5,6 +5,12 @@ This Ruby library provides an API for geocaching.com.  As Groundspeak
 doesn’t offer an official API yet, this library parses the website’s
 HTML code.
 
+Documentation
+-------------
+
+Documentation is available at
+[rdoc.info](http://rdoc.info/projects/nano/ruby-geocaching).
+
 Example
 -------
 
