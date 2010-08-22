@@ -1,24 +1,24 @@
 # encoding: utf-8
 
-describe "Geocaching::Cache for 4ee2c3a1-96e3-4ce0-ad2b-094a51cb3f46 (Multi)" do
+describe "Geocaching::Cache for 07cfab08-dadb-4a8f-a187-2a63404b4d3c (Multi)" do
   before :all do
-    @cache = Geocaching::Cache.fetch(:guid => "4ee2c3a1-96e3-4ce0-ad2b-094a51cb3f46")
+    @cache = Geocaching::Cache.fetch(:guid => "07cfab08-dadb-4a8f-a187-2a63404b4d3c")
   end
 
   it "should return the correct GC code" do
-    @cache.code.should == "GCKZ6J"
+    @cache.code.should == "GC1V1RH"
   end
 
   it "should return the correct name" do
-    @cache.name.should == "MITTELERDE I - DUESTERWALD"
+    @cache.name.should == "D1 - Plan-les-Ouates - le défi"
   end
 
   it "should return the correct displayed owner name" do
-    @cache.owner_display_name.should == "123MAINE"
+    @cache.owner_display_name.should == "Dizzione"
   end
 
   it "should return the correct owner GUID" do
-    @cache.owner.guid == "50da2530-3756-4eb9-9af4-429fb998be3c"
+    @cache.owner.guid == "d83598c6-5185-41b5-b4b9-b38c53bcdd2f"
   end
 
   it "should return the correct cache type" do
@@ -26,39 +26,39 @@ describe "Geocaching::Cache for 4ee2c3a1-96e3-4ce0-ad2b-094a51cb3f46 (Multi)" do
   end
 
   it "should return the correct size" do
-    @cache.size.should == :regular
+    @cache.size.should == :other
   end
 
   it "should return the correct hidden date" do
-    @cache.hidden_at.should == Time.mktime(2004, 10, 31)
+    @cache.hidden_at.should == Time.mktime(2009, 6, 23)
   end
 
   it "should return the correct difficulty rating" do
-    @cache.difficulty.should == 3
+    @cache.difficulty.should == 2
   end
 
   it "should return the correct terrain rating" do
-    @cache.terrain.should == 3.5
+    @cache.terrain.should == 1.5
   end
 
   it "should return the correct latitude" do
-    @cache.latitude.should == 49.570583
+    @cache.latitude.should == 46.166233
   end
 
   it "should return the correct longitude" do
-    @cache.longitude.should == 11.122083
+    @cache.longitude.should == 6.119683
   end
 
   it "should return the correct location" do
-    @cache.location.should == "Bayern, Germany"
+    @cache.location.should == "Suisse romande (GE/VD/FR), Switzerland"
   end
 
   it "should return the correct number of logs" do
-    @cache.logs.size.should == 505
+    @cache.logs.size.should >= 21
   end
 
-  it "should return cache has been archived" do
-    @cache.archived?.should == true
+  it "should return cache has not been archived" do
+    @cache.archived?.should == false
   end
 
   it "should return cache is not PM-only" do
