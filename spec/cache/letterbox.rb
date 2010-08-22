@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 01328a57-5a04-4e69-a1cc-ce0eeaa452f5 (Letterbox)
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

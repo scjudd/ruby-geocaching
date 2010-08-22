@@ -64,4 +64,8 @@ describe "Geocaching::Cache for e34a5b69-51a1-4ed4-838d-e3c3cb75a35a (EarthCache
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 1d86cace-bada-435a-817a-f841718d7754 (Mystery)" 
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 32512f3a-0fc2-45df-943b-af0a6f17f1fa (Lost and F
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

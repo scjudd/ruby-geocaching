@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 6128b8a1-2ed3-48f0-9e05-a7117c5faffc (Wherigo)" 
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

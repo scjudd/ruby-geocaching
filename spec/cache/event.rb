@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 6cea30b1-7279-43ac-86a8-cdfd1daeb348 (Event)" do
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

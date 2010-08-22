@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 7d120ae2-855c-430d-9c14-3d7427de4bdd (Project A.
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

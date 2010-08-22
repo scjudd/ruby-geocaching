@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 4e8b79e1-ffb2-4845-9c24-5ef54137a9b9 (Virtual)" 
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

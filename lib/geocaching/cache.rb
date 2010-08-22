@@ -372,6 +372,18 @@ module Geocaching
       end
     end
 
+    # Whether the cache is currently in review.
+    #
+    # @return [Boolean] Is cache currently in review?
+    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
+    def in_review?
+      @in_review ||= begin
+        raise NotFetchedError unless fetched?
+        [!!@data.match(/<p class="Warning">Sorry, you cannot view this cache listing until it has been published/),
+         !!@data.match(/<p class="Warning">This cache listing has not been reviewed yet/)].any?
+      end
+    end
+
     # Returns an array of logs for this cache.  A log is an instance of
     # {Geocaching::Log}.
     #

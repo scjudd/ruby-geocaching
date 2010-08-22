@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 8cd0976c-42cf-40a2-ae02-ed87ad52d5b1 (Webcam)" d
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

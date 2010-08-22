@@ -64,4 +64,8 @@ describe "Geocaching::Cache for 66274935-40d5-43d8-8cc3-c819e38f9dcc (Traditiona
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

@@ -64,4 +64,8 @@ describe "Geocaching::Cache for c52ff346-4567-4865-a230-c136843049e5 (CITO)" do
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end

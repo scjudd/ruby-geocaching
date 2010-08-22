@@ -64,4 +64,8 @@ describe "Geocaching::Cache for b60781d0-0933-426d-9a67-80eb855e87ef (Mega Event
   it "should return cache is not PM-only" do
     @cache.pmonly?.should == false
   end
+
+  it "should return cache is not in review" do
+    @cache.in_review?.should == false
+  end
 end
