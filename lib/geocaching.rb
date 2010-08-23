@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "nokogiri"
+require "geocaching/version"
 
 # This is a Ruby library to access information on geocaching.com.  As
 # Groundspeak does not provide a public API yet, one needs to parse the

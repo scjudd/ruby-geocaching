@@ -1,6 +1,8 @@
+require "#{File.dirname(__FILE__)}/lib/geocaching/version"
+
 Gem::Specification.new do |s|
   s.name = "geocaching"
-  s.version = "0.3.0"
+  s.version = Geocaching::VERSION
 
   s.summary = "Ruby API for geocaching.com"
   s.description = "A Ruby library that provides an API for geocaching.com"
