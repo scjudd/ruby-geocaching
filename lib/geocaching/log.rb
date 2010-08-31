@@ -173,7 +173,7 @@ module Geocaching
 
         elements = @doc.search("#ctl00_ContentBody_LogBookPanel1_lbLogText > a")
 
-        if elements.size == 2 and elements[1]["href"]
+        if elements.size == 3 and elements[1]["href"]
           elements[1]["href"] =~ /guid=([a-f0-9-]{36})/
           $1
         else
