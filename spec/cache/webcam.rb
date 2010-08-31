@@ -54,7 +54,7 @@ describe "Geocaching::Cache for 8cd0976c-42cf-40a2-ae02-ed87ad52d5b1 (Webcam)" d
   end
 
   it "should return the correct number of logs" do
-    @cache.logs.size.should == 85
+    @cache.logs.size.should >= 86
   end
 
   it "should return cache has been archived" do
