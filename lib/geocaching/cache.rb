@@ -358,6 +358,17 @@ module Geocaching
       end
     end
 
+    # Return whether the cache is unpublished or not.
+    #
+    # @return [Boolean] Is cache unpublished?
+    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
+    def unpublished?
+      @is_unpublished ||= begin
+        raise NotFetchedError unless fetched?
+        !!(@data =~ /<h2>Cache is Unpublished<\/h2>/)
+      end
+    end
+
     # Return whether the cache has been archived or not.
     #
     # @return [Boolean] Has cache been archived?
