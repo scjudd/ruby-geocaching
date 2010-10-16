@@ -3,7 +3,7 @@
 task :default => :test
 
 task :test do
-  sh "spec -c -f specdoc spec"
+  sh "rspec -c spec"
 end
 
 task :console do
