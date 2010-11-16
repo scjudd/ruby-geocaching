@@ -75,4 +75,5 @@ module Geocaching
   autoload :LogType, "geocaching/log_type"
   autoload :MyLogs, "geocaching/my_logs"
   autoload :User, "geocaching/user"
+  autoload :Watchlist, "geocaching/watchlist"
 end
