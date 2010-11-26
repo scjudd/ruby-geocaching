@@ -1,37 +1,63 @@
+# encoding: utf-8
+
 module Geocaching
+  # The {Watchlist} class gives you access to the user’s watchlist.
   class Watchlist
+    # Creates a new instance of this class and calls the {#caches} method.
     def self.caches
       new.caches
     end
 
+    # Returns an array of caches the user has on its watchlist.
+    #
+    # Note: This method caches the information, so multiple calls only do
+    # one HTTP request.  To override the cached information, run the {#fetch}
+    # method manually.
+    #
+    # @return [Array<Geocaching::Cache>]
     def caches
-      caches = []
-      fetch
+      @caches ||= begin
+        caches = []
+        fetch unless fetched?
 
-      @doc.search("table.Table > tbody > tr").each do |row|
-        if info = extract_info_from_row(row) and info.size == 3
-          cache = Cache.new \
-            :guid => info[:cache_guid],
-            :name => info[:cache_name],
-            :type => info[:cache_type]
-          caches << cache
+        @doc.search("table.Table > tbody > tr").each do |row|
+          if info = extract_info_from_row(row) and info.size == 3
+            cache = Cache.new \
+              :guid => info[:cache_guid],
+              :name => info[:cache_name],
+              :type => info[:cache_type]
+            caches << cache
+          end
         end
+
+        caches
+      end
+    end
+
+    # Fetches information from geocaching.com.  Usually, you only call this
+    # method manually if you want to override the cached information.
+    #
+    # @return [void]
+    def fetch
+      unless HTTP.loggedin?
+        raise LoginError, "You need to be logged in to access your watchlist"
       end
 
-      caches
+      resp, @data = HTTP.get(path)
+      @doc = Nokogiri::HTML.parse(@data)
+    end
+
+    # Returns whether information have already been fetched from geocaching.com.
+    #
+    # @return [Boolean]
+    def fetched?
+      @data and @doc
     end
 
   private
 
     def path
       "/my/watchlist.aspx"
-    end
-
-    def fetch
-      raise LoginError, "You need to be logged in to view your watchlist" unless HTTP.loggedin?
-
-      resp, @data = HTTP.get(path)
-      @doc = Nokogiri::HTML.parse(@data)
     end
 
     def extract_info_from_row(row)
