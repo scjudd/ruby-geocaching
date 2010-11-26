@@ -127,6 +127,26 @@ module Geocaching
       end
     end
 
+    # Returns the cache’s ID (which is not the UUID).
+    #
+    # @return [Number] ID
+    def id
+      @id ||= begin
+        raise NotFetchedError unless fetched?
+
+        elements = @doc.search("div.CacheDetailNavigationWidget li a[href^='/seek/log.aspx']")
+        id = nil
+
+        if elements.size == 1 and elements.first["href"] =~ /ID=(\d+)/
+          id = $1.to_i
+        end
+
+        id || begin
+          raise ExtractError, "Could not extract ID from website"
+        end
+      end
+    end
+
     # Return the cache’s type ID.
     #
     # @return [Fixnum] Type ID
