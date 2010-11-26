@@ -420,21 +420,35 @@ module Geocaching
           strongs = td.search("strong")
           next unless strongs.size > 0
 
-          imgs = strongs.first.search("img")
-          as = strongs.first.search("a")
+          imgs    = strongs.first.search("img")
+          user_as = strongs.first.search("a[href^='/profile/']")
+          log_as  = td.search("small > a[href^='log.aspx']")
 
-          unless imgs.size == 1 and as.size == 1
+          unless imgs.size == 1 and user_as.size == 1 and log_as.size == 1
             raise ExtractError, "Could not extract logs from website"
           end
 
-          title = imgs.first["title"]
-          guid = as.first["href"] =~ /guid=([a-f0-9-]{36})/ ? $1 : nil
+          log_title = imgs.first["title"]
+          user_name = user_as.first.text.strip
+          user_guid = user_as.first["href"] =~ /guid=([a-f0-9-]{36})/ ? $1 : nil
+          log_guid  = log_as.first["href"] =~ /LUID=([a-f0-9-]{36})/ ? $1 : nil
 
-          unless title and guid
+          # XXX Fix log title as Groundspeak is unable to escape their
+          # HTML code properly.
+          log_title = "Didn't find it" if log_title == "Didn"
+
+          unless log_title and user_name and user_guid and log_guid
             raise ExtractError, "Could not extract logs from website"
           end
 
-          logs << Log.new(:guid => guid, :title => title, :cache => self)
+          user = User.new(:guid => user_guid, :name => user_name)
+          log = Log.new \
+            :guid  => log_guid,
+            :title => log_title,
+            :cache => self,
+            :user  => user
+
+          logs << log
         end
 
         logs
