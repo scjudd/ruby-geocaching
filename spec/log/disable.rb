@@ -6,7 +6,7 @@ describe "Geocaching::Log for 83a3f4f4-7faf-414a-8145-8f334622d20f (Disable List
   end
 
   it "should return the correct username" do
-    @log.username.should == "CacheHasen"
+    @log.user.name.should == "CacheHasen"
   end
 
   it "should return the correct cache GUID" do

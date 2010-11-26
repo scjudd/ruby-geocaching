@@ -6,7 +6,7 @@ describe "Geocaching::Log for 876d4e85-ebe9-4098-8552-151f34d3b4de (Post Reviewe
   end
 
   it "should return the correct username" do
-    @log.username.should == "Prime Reviewer"
+    @log.user.name.should == "Prime Reviewer"
   end
 
   it "should return the correct cache GUID" do

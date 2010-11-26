@@ -6,7 +6,7 @@ describe "Geocaching::Log for d235f46e-cd16-49af-a520-fa52f6c8abf8 (Needs Archiv
   end
 
   it "should return the correct username" do
-    @log.username.should == "Kent_Allard"
+    @log.user.name.should == "Kent_Allard"
   end
 
   it "should return the correct cache GUID" do

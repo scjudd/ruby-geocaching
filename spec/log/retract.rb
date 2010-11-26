@@ -6,7 +6,7 @@ describe "Geocaching::Log for 58fa3ddc-6c1a-4ae3-bc19-40009c50a9d5 (Retract List
   end
 
   it "should return the correct username" do
-    @log.username.should == "WGA3"
+    @log.user.name.should == "WGA3"
   end
 
   it "should return the correct cache GUID" do

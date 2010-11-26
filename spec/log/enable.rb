@@ -6,7 +6,7 @@ describe "Geocaching::Log for 4e588373-768d-43fb-8cf1-45d2a7d21599 (Enable Listi
   end
 
   it "should return the correct username" do
-    @log.username.should == "Cermak"
+    @log.user.name.should == "Cermak"
   end
 
   it "should return the correct cache GUID" do

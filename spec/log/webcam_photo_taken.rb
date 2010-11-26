@@ -6,7 +6,7 @@ describe "Geocaching::Log for c7f88568-9417-45c2-9906-c4f0210c7837 (Webcam Photo
   end
 
   it "should return the correct username" do
-    @log.username.should == "123flash"
+    @log.user.name.should == "123flash"
   end
 
   it "should return the correct cache GUID" do

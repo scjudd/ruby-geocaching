@@ -6,7 +6,7 @@ describe "Geocaching::Log for 6802b623-f02c-4268-8fb3-7194ea60a686 (Update Coord
   end
 
   it "should return the correct username" do
-    @log.username.should == "Rudisucht"
+    @log.user.name.should == "Rudisucht"
   end
 
   it "should return the correct cache GUID" do

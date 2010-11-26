@@ -6,7 +6,7 @@ describe "Geocaching::Log for 1eb67c1f-610d-4d1d-9703-10b3e47416e2 (Write Note)"
   end
 
   it "should return the correct username" do
-    @log.username.should == "cache-strapped"
+    @log.user.name.should == "cache-strapped"
   end
 
   it "should return the correct cache GUID" do
