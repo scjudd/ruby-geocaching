@@ -68,6 +68,13 @@ module Geocaching
       @data and @doc
     end
 
+    # Returns the log’s GUID.
+    #
+    # @return [String] GUID
+    def guid
+      @guid
+    end
+
     # Returns the cache that belongs to this log.
     #
     # @return [Geocaching::Cache] Cache
