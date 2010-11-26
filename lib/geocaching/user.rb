@@ -29,6 +29,7 @@ module Geocaching
     # as parameters:
     #
     # * +:guid+ — The user’s Globally Unique Identifier (GUID)
+    # * +:name+ — The user‘s name
     #
     # @param [Hash] attributes A hash of attributes
     # @raise [ArgumentError] Trying to set an unknown attribute
@@ -36,7 +37,7 @@ module Geocaching
       @data, @doc, @guid = nil, nil, nil
 
       attributes.each do |key, value|
-        if [:guid].include?(key)
+        if [:guid, :name].include?(key)
           instance_variable_set("@#{key}", value)
         else
           raise ArgumentError, "Trying to set unknown attribute `#{key}'"
