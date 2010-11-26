@@ -467,6 +467,28 @@ module Geocaching
       end
     end
 
+    # Puts the cache on the user’s watchlist.  Obviously, you need to be logged
+    # in when calling this method.
+    #
+    # @return [void]
+    def watch
+      raise LoginError unless HTTP.loggedin?
+      HTTP.get("/my/watchlist.aspx?w=#{id}")
+    end
+
+    # Removes the cache from the user’s watchlist.  This method doesn’t check
+    # if the cache you want to remove from the watchlist actually is on your
+    # watchlist.
+    #
+    # @return [void]
+    def unwatch
+      raise LoginError unless HTTP.loggedin?
+
+      HTTP.post("/my/watchlist.aspx?ds=1&id=#{id}&action=rem", {
+        "ctl00$ContentBody$btnYes" => "Yes"
+      })
+    end
+
   private
 
     def path
