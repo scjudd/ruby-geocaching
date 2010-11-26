@@ -3,8 +3,8 @@
 require "time"
 
 module Geocaching
-  # This class is subclass of Array and is used to store all logs
-  # that belong to a cache.  It implements the {#fetch_all} method to
+  # The {LogsArray} class is a subclass of +Array+ and is used to store all
+  # logs that belong to a cache.  It implements the {#fetch_all} method to
   # fetch the information of all logs inside the array.
   class LogsArray < Array
     # Calls {Geocaching::Log#fetch} for each log inside the array.
@@ -16,11 +16,15 @@ module Geocaching
     end
   end
 
-  # This class represents a cache on geocaching.com.  Altough some
+  # The {Cache} class represents a cache on geocaching.com.  Altough some
   # information are available without being logged in, most information
   # will only be accessible after a successful login.
   #
-  # == Example
+  # This class does caching.  That means that multiple calls of, for example,
+  # the {#latitude} method only do one HTTP request.  To override the cached
+  # information, call the {#fetch} method manually.
+  #
+  # == Usage
   #
   #  cache = Geocaching::Cache.fetch(:code => "GCTEST")
   #  
@@ -29,7 +33,7 @@ module Geocaching
   #  puts cache.archived? #=> false
   #
   class Cache
-    # Create a new instance and call the {#fetch} methods afterwards.
+    # Creates a new instance and calls the {#fetch} methods afterwards.
     # One of +:code+ or +:guid+ must be provided as attributes.
     #
     # @param [Hash] attributes A hash of attributes, see {#initialize}
@@ -42,7 +46,7 @@ module Geocaching
       cache
     end
 
-    # Create a new instance. The following attributes may be specified
+    # Creates a new instance.  The following attributes may be specified
     # as parameters:
     #
     # * +:code+ — The cache’s GC code
@@ -66,12 +70,10 @@ module Geocaching
       end
     end
 
-    # Fetche cache information from geocaching.com.
+    # Fetches cache information from geocaching.com.
     #
     # @return [void]
     # @raise [ArgumentError] Neither code nor GUID are given
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def fetch
       raise ArgumentError, "Neither code nor GUID given" unless @code or @guid
 
@@ -79,19 +81,17 @@ module Geocaching
       @doc = Nokogiri::HTML.parse(@data)
     end
 
-    # Return whether information have successfully been fetched
+    # Returns whether information have successfully been fetched
     # from geocaching.com.
     #
-    # @return [Boolean] Have information been fetched?
+    # @return [Boolean] Have cache information been fetched?
     def fetched?
       @data and @doc
     end
 
-    # Return the cache’s code (GCXXXXXX).
+    # Returns the cache’s code.
     #
     # @return [String] Code
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract code from website
     def code
       @code ||= begin
         raise NotFetchedError unless fetched?
@@ -105,11 +105,9 @@ module Geocaching
       end
     end
 
-    # Return the cache’s Globally Unique Identifier (GUID).
+    # Returns the cache’s Globally Unique Identifier (GUID).
     #
     # @return [String] GUID
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract GUID from website
     def guid
       @guid ||= begin
         raise NotFetchedError unless fetched?
@@ -129,7 +127,7 @@ module Geocaching
 
     # Returns the cache’s ID (which is not the UUID).
     #
-    # @return [Number] ID
+    # @return [Fixnum] ID
     def id
       @id ||= begin
         raise NotFetchedError unless fetched?
@@ -147,11 +145,9 @@ module Geocaching
       end
     end
 
-    # Return the cache’s type ID.
+    # Returns the cache’s type ID.
     #
     # @return [Fixnum] Type ID
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract cache type ID from website
     def type_id
       @type_id ||= begin
         raise NotFetchedError unless fetched?
@@ -164,20 +160,16 @@ module Geocaching
       end
     end
 
-    # Return the cache’s type.
+    # Returns the cache’s type.
     #
     # @return [Geocaching::CacheType] Type
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract cache type ID from website
     def type
       @type ||= CacheType.for_id(type_id)
     end
 
-    # Return the cache’s name.
+    # Returns the cache’s name.
     #
     # @return [String] Name
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract name from website"
     def name
       @name ||= begin
         raise NotFetchedError unless fetched?
@@ -191,11 +183,9 @@ module Geocaching
       end
     end
 
-    # Return the cache’s owner.
+    # Returns the cache’s owner.
     #
-    # @return [Geocaching::User]
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract info from website"
+    # @return [Geocaching::User] Owner
     def owner
       @owner ||= begin
         raise NotFetchedError unless fetched?
@@ -209,21 +199,17 @@ module Geocaching
       end
     end
 
-    # Return the displayed cache owner name.
+    # Returns the displayed cache owner name.
     #
-    # @return [String]
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract info from website"
+    # @return [String] Displayed owner name
     def owner_display_name
       owner unless @owner_display_name
       @owner_display_name
     end
 
-    # Return the cache’s difficulty rating.
+    # Returns the cache’s difficulty rating.
     #
     # @return [Float] Difficulty rating
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract difficulty rating from website
     def difficulty
       @difficulty ||= begin
         raise NotFetchedError unless fetched?
@@ -236,11 +222,9 @@ module Geocaching
       end
     end
 
-    # Return the cache’s terrain rating.
+    # Returns the cache’s terrain rating.
     #
     # @return [Float] Terrain rating
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract terrain rating from website
     def terrain
       @terrain ||= begin
         raise NotFetchedError unless fetched?
@@ -253,11 +237,9 @@ module Geocaching
       end
     end
 
-    # Return the date the cache has been hidden at.
+    # Returns the date the cache has been hidden at.
     #
     # @return [Time] Hidden date
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract hidden date from website
     def hidden_at
       @hidden_at ||= begin
         raise NotFetchedError unless fetched?
@@ -270,11 +252,9 @@ module Geocaching
       end
     end
 
-    # Return the date the event has been held.
+    # Returns the date the event has been held.
     #
     # @return [Time] Event date
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract event date from website
     def event_date
       @event_date ||= begin
         raise NotFetchedError unless fetched?
@@ -288,11 +268,18 @@ module Geocaching
       end
     end
 
-    # Return the cache’s container size.
+    # Returns the cache’s container size.  One of the following symbols
+    # is returned:
+    #
+    # * +:micro+
+    # * +:small+
+    # * +:regular+
+    # * +:large+
+    # * +:other+
+    # * +:not_chosen+
+    # * +:virtual+
     #
     # @return [Symbol] Cache container size
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract cache container size from website
     def size
       @size ||= begin
         raise NotFetchedError unless fetched?
@@ -308,11 +295,9 @@ module Geocaching
       end
     end
 
-    # Return the cache’s latitude.
+    # Returns the cache’s latitude.
     #
     # @return [Float] Latitude
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract latitude from website
     def latitude
       @latitude ||= begin
         raise NotFetchedError unless fetched?
@@ -331,11 +316,9 @@ module Geocaching
       end
     end
 
-    # Return the cache’s longitude.
+    # Returns the cache’s longitude.
     #
     # @return [Float] Longitude
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract longitude from website
     def longitude
       @longitude ||= begin
         raise NotFetchedError unless fetched?
@@ -354,11 +337,9 @@ module Geocaching
       end
     end
 
-    # Return the cache’s location name (State, Country).
+    # Returns the cache’s location name (State, Country).
     #
     # @return [String] Location name
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract location from website
     def location
       @location ||= begin
         raise NotFetchedError unless fetched?
@@ -378,10 +359,9 @@ module Geocaching
       end
     end
 
-    # Return whether the cache is unpublished or not.
+    # Returns whether the cache is unpublished or not.
     #
     # @return [Boolean] Is cache unpublished?
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
     def unpublished?
       @is_unpublished ||= begin
         raise NotFetchedError unless fetched?
@@ -389,10 +369,9 @@ module Geocaching
       end
     end
 
-    # Return whether the cache has been archived or not.
+    # Returns whether the cache has been archived or not.
     #
     # @return [Boolean] Has cache been archived?
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
     def archived?
       @is_archived ||= begin
         raise NotFetchedError unless fetched?
@@ -400,10 +379,9 @@ module Geocaching
       end
     end
 
-    # Return whether the cache is only viewable to Premium Member only.
+    # Returns whether the cache is only viewable to Premium Member only.
     #
     # @return [Boolean] Is cache PM-only?
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
     def pmonly?
       @is_pmonly ||= begin
         raise NotFetchedError unless fetched?
@@ -413,10 +391,9 @@ module Geocaching
       end
     end
 
-    # Return whether the cache is currently in review.
+    # Returns whether the cache is currently in review.
     #
     # @return [Boolean] Is cache currently in review?
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
     def in_review?
       @in_review ||= begin
         raise NotFetchedError unless fetched?
@@ -425,12 +402,9 @@ module Geocaching
       end
     end
 
-    # Return an array of logs for this cache. A log is an instance of
-    # {Geocaching::Log}.
+    # Returns an array of the cache’s logs.
     #
     # @return [Geocaching::LogsArray<Geocaching::Log>] Array of logs
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} first
-    # @raise [Geocaching::ExtractError] Could not extract logs from website
     def logs
       @logs ||= begin
         raise NotFetchedError unless fetched?
@@ -472,7 +446,10 @@ module Geocaching
     #
     # @return [void]
     def watch
-      raise LoginError unless HTTP.loggedin?
+      unless HTTP.loggedin?
+        raise LoginError
+      end
+
       HTTP.get("/my/watchlist.aspx?w=#{id}")
     end
 
@@ -482,7 +459,9 @@ module Geocaching
     #
     # @return [void]
     def unwatch
-      raise LoginError unless HTTP.loggedin?
+      unless HTTP.loggedin?
+        raise LoginError
+      end
 
       HTTP.post("/my/watchlist.aspx?ds=1&id=#{id}&action=rem", {
         "ctl00$ContentBody$btnYes" => "Yes"
@@ -491,6 +470,9 @@ module Geocaching
 
   private
 
+    # Returns the HTTP request path.
+    #
+    # @return [String] HTTP request path
     def path
       "/seek/cache_details.aspx?log=y&" + (@code ? "wp=#{@code}" : "guid=#{@guid}")
     end

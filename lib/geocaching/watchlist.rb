@@ -1,18 +1,22 @@
 # encoding: utf-8
 
 module Geocaching
-  # The {Watchlist} class gives you access to the user’s watchlist.
+  # The {Watchlist} class provides access to the user’s watchlist.
+  #
+  # This method does caching.  That means that multiple calls to, for example,
+  # the {#caches} method do only one HTTP request.  If you want to override
+  # the cached information, call the {#fetch} method manually.  Note that this
+  # only applies to instances of this class, so a HTTP request is made for
+  # every call of the {caches} class method.
   class Watchlist
     # Creates a new instance of this class and calls the {#caches} method.
+    #
+    # @return [Array<Geocaching::Cache>]
     def self.caches
       new.caches
     end
 
     # Returns an array of caches the user has on its watchlist.
-    #
-    # Note: This method caches the information, so multiple calls only do
-    # one HTTP request.  To override the cached information, run the {#fetch}
-    # method manually.
     #
     # @return [Array<Geocaching::Cache>]
     def caches
@@ -47,19 +51,26 @@ module Geocaching
       @doc = Nokogiri::HTML.parse(@data)
     end
 
-    # Returns whether information have already been fetched from geocaching.com.
+    # Returns whether watchlist information have successfully been fetched
+    # from geocaching.com.
     #
-    # @return [Boolean]
+    # @return [Boolean] Have watchlist information been fetched?
     def fetched?
       @data and @doc
     end
 
   private
 
+    # Returns the HTTP request path.
+    #
+    # @return [String] HTTP request path
     def path
       "/my/watchlist.aspx"
     end
 
+    # Returns the information from a HTML table row node.
+    #
+    # @return [Hash] Extracted information
     def extract_info_from_row(row)
       info = {}
 

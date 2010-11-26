@@ -7,8 +7,13 @@ require "geocaching/version"
 # Groundspeak does not provide a public API yet, one needs to parse the
 # website content.  That’s what this library does.
 #
-# * {Geocaching::Cache} — Represents a cache
-# * {Geocaching::Log} — Represents a log
+# The whole library may raise the following exceptions:
+#
+# * {Geocaching::LoginError}
+# * {Geocaching::NotFetchedError}
+# * {Geocaching::ExtractError}
+# * {Geocaching::TimeoutError}
+# * {Geocaching::HTTPError}
 #
 # == Usage
 #
@@ -51,7 +56,7 @@ module Geocaching
   end
 
   # This exception is raised when a method is called that requires
-  # the +#fetch+ method to be called first.
+  # the #fetch method to be called first.
   class NotFetchedError < Error
     def initialize
       super "Need to call the #fetch method first"
@@ -64,7 +69,7 @@ module Geocaching
   class ExtractError < Error
   end
 
-  # This exception is raised when a HTTP request fails.
+  # This exception is raised when a HTTP request failed.
   class HTTPError < Error
   end
 

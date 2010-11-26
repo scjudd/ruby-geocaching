@@ -1,7 +1,11 @@
 # encoding: utf-8
 
 module Geocaching
-  # This class represents a log on geocaching.com.
+  # The {Log} class represents a log on geocaching.com.
+  #
+  # This class does caching.  That means that multiple calls of, for example,
+  # the {#date} method only do one HTTP request.  If you want to override the
+  # cached information, call the {#fetch} method manually.
   class Log
     # Creates a new instance and calls the {#fetch} method afterwards.
     # +:guid+ must be specified as an attribute.
@@ -10,8 +14,6 @@ module Geocaching
     # @return [Geocaching::Log]
     # @raise [ArgumentError] Unknown attribute provided
     # @raise [TypeError] Invalid attribute provided
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def self.fetch(attributes)
       log = new(attributes)
       log.fetch
@@ -50,26 +52,23 @@ module Geocaching
     #
     # @return [void]
     # @raise [ArgumentError] GUID is not given
-    # @raise [Geocaching::LoginError] Not logged in
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def fetch
       raise ArgumentError, "No GUID given" unless @guid
-      raise LoginError, "Need to be logged in to fetch log information" unless HTTP.loggedin?
+      raise LoginError unless HTTP.loggedin?
 
       resp, @data = HTTP.get(path)
       @doc = Nokogiri::HTML.parse(@data)
     end
 
-    # Whether information have successfully been fetched
+    # Returns whether log information have successfully been fetched
     # from geocaching.com.
     #
-    # @return [Boolean] Have information beed fetched?
+    # @return [Boolean] Have log information beed fetched?
     def fetched?
       @data and @doc
     end
 
-    # The cache that belongs to this log.
+    # Returns the cache that belongs to this log.
     #
     # @return [Geocaching::Cache] Cache
     def cache
@@ -80,29 +79,16 @@ module Geocaching
       end
     end
 
+    # Returns the log’s type.
+    #
+    # @return [Geocaching::LogType] Log type
     def type
       @type ||= LogType.for_title(title)
     end
 
-    def title
-      @title ||= begin
-        raise NotFetchedError unless fetched?
-
-        imgs = @doc.search("#ctl00_ContentBody_LogBookPanel1_LogImage")
-
-        unless imgs.size == 1 and imgs.first["alt"]
-          raise ExtractError, "Could not extract title from website"
-        end
-
-        imgs.first["alt"]
-      end
-    end
-
-    # The name of the user that has posted this log.
+    # Returns the name of the user that posted the log.
     #
     # @return [String] Username
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} before
-    # @raise [Geocaching::ExtractError] Could not extract username from website
     def username
       @username ||= begin
         raise NotFetchedError unless fetched?
@@ -117,6 +103,9 @@ module Geocaching
       end
     end
 
+    # Returns the date the log was written at.
+    #
+    # @return [Time] Log date
     def date
       @date ||= begin
         raise NotFetchedError unless fetched?
@@ -131,11 +120,9 @@ module Geocaching
       end
     end
 
-    # The log’s raw message with all format codes.
+    # Returns the log’s raw message with all format codes.
     #
-    # @return [String] Log message
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} before
-    # @raise [Geocaching::ExtractError] Could not extract message from website
+    # @return [String] Raw log message
     def message
       @message ||= begin
         raise NotFetchedError unless fetched?
@@ -148,11 +135,9 @@ module Geocaching
       end
     end
 
-    # The short coord.info URL for this log.
+    # Returns thehe short coord.info URL for the log.
     #
     # @return [String] coord.info URL
-    # @raise [Geocaching::NotFetchedError] Need to call {#fetch} before
-    # @raise [Geocaching::ExtractError] Could not extract short URL from website
     def short_url
       @short_url ||= begin
         raise NotFetchedError unless fetched?
@@ -165,6 +150,26 @@ module Geocaching
 
   private
 
+    # Returns the log’s title which is used internally to get the log type.
+    #
+    # @return [String] Log title
+    def title
+      @title ||= begin
+        raise NotFetchedError unless fetched?
+
+        imgs = @doc.search("#ctl00_ContentBody_LogBookPanel1_LogImage")
+
+        unless imgs.size == 1 and imgs.first["alt"]
+          raise ExtractError, "Could not extract title from website"
+        end
+
+        imgs.first["alt"]
+      end
+    end
+
+    # Returns the UUID of the cache that belongs to this log.
+    #
+    # @return [String] Cache UUID
     def cache_guid
       if @cache.kind_of?(Geocaching::Cache) and @cache.guid
         @cache.guid
@@ -182,6 +187,10 @@ module Geocaching
       end
     end
 
+    # Returns an array of information that are provided on the website
+    # in <meta> tags.
+    #
+    # @return [Hash] Log information
     def meta
       @meta ||= begin
         elements = @doc.search("meta").select { |e| e["name"] =~ /^og:/ }.flatten
@@ -195,6 +204,9 @@ module Geocaching
       end
     end
 
+    # Returns the HTTP request path.
+    #
+    # @return [String] HTTP request path
     def path
       "/seek/log.aspx?LUID=#{@guid}"
     end

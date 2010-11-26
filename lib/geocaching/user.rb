@@ -1,18 +1,23 @@
+# encoding: utf-8
+
 require "time"
 
 module Geocaching
-  # This class represents an user on geocaching.com.
+  # The {User} class represents a user on geocaching.com.
+  #
+  # This class does caching.  If you want to override the cached information,
+  # call the {#fetch} method manually.
+  #
+  # == Usage
   #
   #  user = Geocaching::User.fetch(:guid => "...")
   #  puts user.name #=> "Jack"
   class User
-    # Create a new instance and call the {fetch} method afterwards.
-    # +:guid+ must be giveb as an attribute.
+    # Creates a new instance and calls the {fetch} method afterwards.
+    # +:guid+ must be given as an attribute.
     #
     # @param [Hash] attributes A hash of attributes
     # @raise [ArgumentError] No GUID given
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     # @return [Geocaching::User]
     def self.fetch(attributes)
       user = new(attributes)
@@ -20,7 +25,7 @@ module Geocaching
       user
     end
 
-    # Create a new instance. The following attributes may be specified
+    # Creates a new instance.  The following attributes may be specified
     # as parameters:
     #
     # * +:guid+ — The user’s Globally Unique Identifier (GUID)
@@ -39,12 +44,10 @@ module Geocaching
       end
     end
 
-    # Fetch user information from geocaching.com.
+    # Fetches user information from geocaching.com.
     #
     # @return [void]
     # @raise [ArgumentError] No GUID given
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def fetch
       raise ArgumentError, "No GUID given" unless @guid
 
@@ -52,27 +55,24 @@ module Geocaching
       @doc = Nokogiri::HTML.parse(@data)
     end
 
-    # Return whether user information have successfully been fetched
+    # Returns whether user information have successfully been fetched
     # from geocaching.com.
     #
-    # @return [Boolean]
+    # @return [Boolean] Have user information been fetched?
     def fetched?
       @data and @doc
     end
 
-    # Return the user’s Globally Unique Identifier (GUID).
+    # Returns the user’s Globally Unique Identifier (GUID).
     #
     # @return [String]
     def guid
       @guid
     end
 
-    # Return the user’s name.
+    # Returns the user’s name.
     #
     # @return [String]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract name from website
     def name
       @name ||= begin
         raise NotFetchedError unless fetched?
@@ -87,12 +87,9 @@ module Geocaching
       end
     end
 
-    # Return the user’s occupation.
+    # Returns the user’s occupation.
     #
-    # @return [String]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [String] Occupation
     def occupation
       @occupation ||= begin
         raise NotFetchedError unless fetched?
@@ -107,12 +104,9 @@ module Geocaching
       end
     end
 
-    # Return the user’s location.
+    # Returns the user’s location.
     #
-    # @return [String]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [String] Location
     def location
       @location ||= begin
         raise NotFetchedError unless fetched?
@@ -127,12 +121,9 @@ module Geocaching
       end
     end
 
-    # Return the user’s forum title.
+    # Returns the user’s forum title.
     #
-    # @return [String]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [String] Forum title
     def forum_title
       @forum_title ||= begin
         raise NotFetchedError unless fetched?
@@ -147,12 +138,9 @@ module Geocaching
       end
     end
 
-    # Return the user’s homepage.
+    # Returns the user’s homepage.
     #
-    # @return [String]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [String] Homepage
     def homepage
       @homepage ||= begin
         raise NotFetchedError unless fetched?
@@ -162,12 +150,9 @@ module Geocaching
       end
     end
 
-    # Return the user’s statuses.
+    # Returns the user’s statuses.
     #
-    # @return [Array<String>]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [Array<String>] Array of statuses
     def status
       @status ||= begin
         raise NotFetchedError unless fetched?
@@ -182,12 +167,9 @@ module Geocaching
       end
     end
 
-    # Return the user’s last visit date.
+    # Returns the user’s last visit date.
     #
-    # @return [Time]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [Time] Last visit date
     def last_visit
       @last_visit ||= begin
         raise NotFetchedError unless fetched?
@@ -202,12 +184,9 @@ module Geocaching
       end
     end
 
-    # Return the user’s member since date.
+    # Returns the user’s member since date.
     #
-    # @return [Time]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [Time] Member since date
     def member_since
       @member_since ||= begin
         raise NotFetchedError unless fetched?
@@ -222,28 +201,25 @@ module Geocaching
       end
     end
 
-    # Return whether the user is a reviewer.
+    # Returns whether the user is a reviewer.
     #
-    # @return [Boolean]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [Boolean] Is user a reviewer?
     def reviewer?
       status.include?("Reviewer")
     end
 
-    # Return whether the user is a premium member.
+    # Returns whether the user is a Premium Member.
     #
-    # @return [Boolean]
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
-    # @raise [Geocaching::ExtractError] Could not extract information from website
+    # @return [Boolean] Is user a Premium Member?
     def premium_member?
       status.include?("Premium Member")
     end
 
   private
 
+    # Returns the HTTP request path.
+    #
+    # @return [String] HTTP request path
     def path
       "/profile/?guid=#{guid}"
     end

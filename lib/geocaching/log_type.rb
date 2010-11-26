@@ -1,5 +1,9 @@
+# encoding: utf-8
+
 module Geocaching
-  # This class represents a log type.
+  # The {LogType} class represents a log type.
+  #
+  # == Usage
   #
   #  if @log.type == :archive
   #    puts "#{@log.cache.code} has been archived"
@@ -28,7 +32,7 @@ module Geocaching
       :reviewer_note      => ["big_smile",          "Post Reviewer Note"]
     }
 
-    # Return a {LogType} object for the given log type icon, or nil if
+    # Returns a {LogType} object for the given log type icon, or nil if
     # no appropriate log type is found.
     #
     # @return [Geocaching::LogType]
@@ -39,7 +43,7 @@ module Geocaching
       end
     end
 
-    # Return a {LogType} object for the given log type title, or nil if
+    # Returns a {LogType} object for the given log type title, or nil if
     # no appropriate log type is found.
     #
     # @return [Geocaching::LogType]
@@ -50,43 +54,43 @@ module Geocaching
       end
     end
 
-    # Create a new instance. You should not need to create an instance
-    # of this class on your own. Use {for_icon} and {for_title}.
+    # Creates a new instance.  You should not need to create an instance
+    # of this class on your own.  Use {for_icon} and {for_title}.
     def initialize(info)
       @info = info
     end
 
-    # Return the log type’s icon.
+    # Returns the log type’s icon.
     #
-    # @return [String]
+    # @return [String] Icon
     def icon
       @info[1][0]
     end
 
-    # Return the log type’s title.
+    # Returns the log type’s description.
     #
-    # @return [String]
+    # @return [String] Description
     def description
       @info[1][1]
     end
 
     alias to_s description
 
-    # Return the symbol representatin of the log type. See the {TYPES}
+    # Returns the symbol representaton of the log type.  See the {TYPES}
     # hash for a list of log type symbols.
     #
-    # @return [Symbol]
+    # @return [Symbol] Log type symbol
     def to_sym
       @info[0]
     end
 
-    # Overload the == operator.
+    # Overloads the +==+ operator to compare by symbol.
     #
     #  if @log.type == :dnf
     #    puts "Someone could not find the cache"
     #  end
     #
-    # @return [Boolean]
+    # @return [Boolean] Does object match with argument?
     def ==(s)
       to_sym == s
     end

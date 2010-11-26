@@ -1,48 +1,48 @@
+# encoding: utf-8
+
 module Geocaching
-  # This class provides access to the logs the user currently logged in
-  # has written.
+  # The {MyLogs} class provides access to the logs the user
+  # you’re logged in with has written.
+  #
+  # This class does caching.  If you want to override the cached information,
+  # call the {#fetch} method manually.
+  #
+  # == Usage
   #
   #  mylogs = Geocaching::MyLogs.fetch
   #  puts "I've written #{mylogs.size} logs."
   class MyLogs
-    # Create a new instance and call {fetch} afterwards.
+    # Creates a new instance and calls {#fetch} afterwards.
     #
     # @return [Geocaching::MyLogs]
-    # @raise [Geocaching::LoginError] Need to be logged in to fetch own logs
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def self.fetch
       mylogs = new
       mylogs.fetch
       mylogs
     end
 
-    # Fetch logs from geocaching.com.
+    # Fetches logs from geocaching.com.
     #
     # @return [void]
-    # @raise [Geocaching::LoginError] Need to be logged in to fetch own logs
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def fetch
-      raise LoginError, "Need to be logged in to fetch your logs" unless HTTP.loggedin?
+      raise LoginError unless HTTP.loggedin?
 
       resp, @data = HTTP.get(path)
       @doc = Nokogiri::HTML.parse(@data)
     end
 
-    # Return whether logs have successfully been fetched from
-    # geocaching.com.
+    # Returns whether logs have successfully been fetched
+    # from geocaching.com.
     #
-    # @return [Boolean]
+    # @return [Boolean] Have logs been fetched?
     def fetched?
       @data and @doc
     end
 
-    # Return an array of logs the user you’re logged in with has
+    # Returns an array of logs the user you’re logged in with has
     # written.
     #
     # @return [Array<Geocaching::Log>]
-    # @raise [Geocaching::NotFetchedError] Need to call {fetch} first.
     def logs
       @logs ||= begin
         raise NotFetchedError unless fetched?
@@ -72,10 +72,16 @@ module Geocaching
 
   private
 
+    # Returns the HTTP request path.
+    #
+    # @return [String] HTTP request path
     def path
       "/my/logs.aspx?s=1"
     end
 
+    # Extracts information from a HTML table row node.
+    #
+    # @return [Hash] Extracted information
     def extract_info_from_row(row)
       info = {}
 

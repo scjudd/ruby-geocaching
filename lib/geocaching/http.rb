@@ -5,6 +5,7 @@ require "net/http"
 require "timeout"
 
 module Geocaching
+  # The {HTTP} class handles the HTTP communication with geocaching.com.
   class HTTP
     # An array of user agent strings.  A random one is chosen.
     USER_AGENTS = [
@@ -89,9 +90,6 @@ module Geocaching
     #
     # @return [void]
     # @raise [ArgumentError] Username or password missing
-    # @raise [Geocaching::LoginError] Already logged in
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def login
       raise ArgumentError, "Missing username" unless self.class.username
       raise ArgumentError, "Missing password" unless self.class.password
@@ -112,9 +110,6 @@ module Geocaching
     # Logs out from geocaching.com.
     #
     # @return [void]
-    # @raise [Geocaching::LoginError] Not logged in
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def logout
       raise LoginError, "Not logged in" unless @loggedin
 
@@ -124,9 +119,9 @@ module Geocaching
       get("/login/default.aspx?RESET=Y")
     end
 
-    # Returns whether this lib is logged in as a user.
+    # Returns whether you‘ve already logged in.
     #
-    # @return [Boolean] Logged in?
+    # @return [Boolean] Already logged in?
     def loggedin?
       @loggedin and @cookie
     end
@@ -134,11 +129,9 @@ module Geocaching
     # Sends a GET request to +path+.  The authentication cookie is sent
     # with the request if available.
     #
-    # @param [String] path
+    # @param [String] path Request path
     # @return [Net::HTTP::Response] Reponse object from +Net::HTTP+
     # @return [String] Actual content
-    # @raise [Geocaching::TimeoutError] Timeout hit
-    # @raise [Geocaching::HTTPError] HTTP request failed
     def get(path)
       resp = data = nil
       header = default_header

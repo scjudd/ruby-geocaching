@@ -1,5 +1,9 @@
+# encoding: utf-8
+
 module Geocaching
-  # This class represents a cache type.
+  # The {CacheType} class represents a cache type.
+  #
+  # == Usage
   #
   #  if @cache.type == :traditional
   #    puts "Cache is a Traditional Cache"
@@ -24,7 +28,7 @@ module Geocaching
       :ape          => [9,    "Project APE Cache"]
     }
 
-    # Return a {CacheType} object for the given cache type id, or
+    # Returns a {CacheType} object for the given cache type id, or
     # nil if no appropriate cache id is found.
     #
     # @return [Geocaching::CacheType]
@@ -35,7 +39,7 @@ module Geocaching
       end
     end
 
-    # Return a {CacheType} object for the given cache type title, or
+    # Returns a {CacheType} object for the given cache type title, or
     # nil if no appropriate cache type is found.
     #
     # @return [Geocaching::CacheType]
@@ -46,43 +50,43 @@ module Geocaching
       end
     end
 
-    # Create a new instance. You should not need to create an instance
-    # of this class on your own. Use {for_id} and {for_title}.
+    # Creates a new instance.  You should not need to create an instance
+    # of this class on your own.  Use {for_id} and {for_title}.
     def initialize(info)
       @info = info
     end
 
-    # Return the cache type’s ID.
+    # Returns the cache type’s ID.
     #
-    # @return [Fixnum]
+    # @return [Fixnum] Cache type ID
     def id
       @info[1][0]
     end
 
-    # Return the cache type’s name.
+    # Returns the cache type’s name.
     #
-    # @return [String]
+    # @return [String] Cache type name
     def name
       @info[1][1]
     end
 
     alias to_s name
 
-    # Return the symbol that describes this cache type. See the {TYPES}
+    # Returns the symbol that describes this cache type.  See the {TYPES}
     # hash for a list of cache type symbols.
     #
-    # @return [Symbol]
+    # @return [Symbol] Cache type symbol
     def to_sym
       @info[0]
     end
 
-    # Overload the == operator.
+    # Overloads the +==+ operator to compare by symbol.
     #
     #  if @cache.type == :multi
     #    puts "It's a multi cache."
     #  end
     #
-    # @return [Boolean]
+    # @return [Boolean] Does object match with argument?
     def ==(s)
       to_sym == s
     end
