@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 6128b8a1-2ed3-48f0-9e05-a7117c5faffc (Wherigo)" 
     @cache.code.should == "GC19RVP"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 804412
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Pegnitztal"
   end

@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 4e8b79e1-ffb2-4845-9c24-5ef54137a9b9 (Virtual)" 
     @cache.code.should == "GCEB74"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 60276
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Buecherturm"
   end

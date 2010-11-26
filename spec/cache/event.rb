@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 6cea30b1-7279-43ac-86a8-cdfd1daeb348 (Event)" do
     @cache.code.should == "GC211KT"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 1467288
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Weihnachtliches Vorglühen"
   end

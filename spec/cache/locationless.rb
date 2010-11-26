@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 9ce22167-5a8d-451c-a69b-b19d5ec4f578 (Locationle
     @cache.code.should == "GCB48F"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 46223
+  end
+
   it "should return the correct name" do
     @cache.name.should == "die letzte ihrer art?"
   end

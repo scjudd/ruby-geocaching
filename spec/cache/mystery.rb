@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 1d86cace-bada-435a-817a-f841718d7754 (Mystery)" 
     @cache.code.should == "GC21BBB"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 1476636
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Nordstadt-Matrix"
   end

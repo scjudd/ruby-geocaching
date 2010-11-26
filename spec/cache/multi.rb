@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 07cfab08-dadb-4a8f-a187-2a63404b4d3c (Multi)" do
     @cache.code.should == "GC1V1RH"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 1288689
+  end
+
   it "should return the correct name" do
     @cache.name.should == "D1 - Plan-les-Ouates - le défi"
   end

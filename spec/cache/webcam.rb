@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 8cd0976c-42cf-40a2-ae02-ed87ad52d5b1 (Webcam)" d
     @cache.code.should == "GCQG38"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 289550
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Versteckte Kamera"
   end

@@ -9,6 +9,10 @@ describe "Geocaching::Cache for e34a5b69-51a1-4ed4-838d-e3c3cb75a35a (EarthCache
     @cache.code.should == "GC26Y3T"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 1642655
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Kniepsand Amrum (Earthcache)"
   end

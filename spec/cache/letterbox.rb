@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 01328a57-5a04-4e69-a1cc-ce0eeaa452f5 (Letterbox)
     @cache.code.should == "GC1KBJD"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 1089572
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Worzeldorfer Gebirge (Letterbox)"
   end

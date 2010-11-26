@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 32512f3a-0fc2-45df-943b-af0a6f17f1fa (Lost and F
     @cache.code.should == "GC2546Y"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 1588936
+  end
+
   it "should return the correct name" do
     @cache.name.should == "10 Jahre! Nürnberg, Germany"
   end

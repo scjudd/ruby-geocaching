@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 66274935-40d5-43d8-8cc3-c819e38f9dcc (Traditiona
     @cache.code.should == "GCF00"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 3840
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Bridge Over Troubled Waters"
   end

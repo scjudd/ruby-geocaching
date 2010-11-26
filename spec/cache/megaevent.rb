@@ -9,6 +9,10 @@ describe "Geocaching::Cache for b60781d0-0933-426d-9a67-80eb855e87ef (Mega Event
     @cache.code.should == "GC1XEDZ"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 1360436
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Pinzgau 2010"
   end

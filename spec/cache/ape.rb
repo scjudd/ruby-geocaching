@@ -9,6 +9,10 @@ describe "Geocaching::Cache for 7d120ae2-855c-430d-9c14-3d7427de4bdd (Project A.
     @cache.code.should == "GC1169"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 4457
+  end
+
   it "should return the correct name" do
     @cache.name.should == "Mission 9: Tunnel of Light"
   end

@@ -9,6 +9,10 @@ describe "Geocaching::Cache for c52ff346-4567-4865-a230-c136843049e5 (CITO)" do
     @cache.code.should == "GC1W95B"
   end
 
+  it "should return the correct ID" do
+    @cache.id.should == 1325573
+  end
+
   it "should return the correct name" do
     @cache.name.should == "1. Dresdner CITO"
   end
