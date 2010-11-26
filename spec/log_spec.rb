@@ -6,7 +6,13 @@ dir = File.dirname(__FILE__)
 require "geocaching"
 require "#{dir}/helper"
 
-Geocaching::LogType::TYPES.to_a.map { |a| a[0].to_s }.each do |type|
+if ENV["GC_LOG_TYPES"]
+  types = ENV["GC_LOG_TYPES"].split
+else
+  types = Geocaching::LogType::TYPES.to_a.map { |a| a[0].to_s }
+end
+
+types.each do |type|
   begin
     require "#{dir}/log/#{type}"
   rescue LoadError
