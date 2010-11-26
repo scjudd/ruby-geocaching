@@ -24,21 +24,23 @@ module Geocaching
     # as parameters:
     #
     # * +:guid+ — The log’s Globally Unique Identifier
-    # * +:cache+ — A {Geocaching::Cache} that belongs to this log
     #
     # @raise [ArgumentError] Trying to set an unknown attribute
-    # @raise [TypeError] +:code+ is not an instance of {Geocaching::Cache}
     def initialize(attributes = {})
       @data, @doc, @guid, @cache = nil, nil, nil, nil
 
       attributes.each do |key, value|
-        if [:guid, :title, :date, :cache].include?(key)
+        if [:guid, :title, :date, :cache, :user].include?(key)
           if key == :cache and not value.kind_of?(Geocaching::Cache)
             raise TypeError, "Attribute `cache' must be an instance of Geocaching::Cache"
           end
 
           if key == :date and not value.kind_of?(Time)
             raise TypeError, "Attribute `type' must be an instance of Time"
+          end
+
+          if key == :user and not value.kind_of?(User)
+            raise TypeError, "Attribute `user' must be an instance of Geocaching::User"
           end
 
           instance_variable_set("@#{key}", value)
@@ -93,17 +95,17 @@ module Geocaching
       @type ||= LogType.for_title(title)
     end
 
-    # Returns the name of the user that posted the log.
+    # Returns the the user that posted the log.
     #
-    # @return [String] Username
-    def username
-      @username ||= begin
+    # @return [Geocaching::User] User
+    def user
+      @user ||= begin
         raise NotFetchedError unless fetched?
 
         elements = @doc.search("#ctl00_ContentBody_LogBookPanel1_lbLogText > a")
 
         if elements.size > 0
-          HTTP.unescape(elements.first.inner_html)
+          User.new(:name => HTTP.unescape(elements.first.inner_html))
         else
           raise ExtractError, "Could not extract username from website"
         end
