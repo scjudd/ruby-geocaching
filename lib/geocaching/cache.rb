@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "time"
+require "json"
 
 module Geocaching
   # The {LogsArray} class is a subclass of +Array+ and is used to store all
@@ -46,6 +47,77 @@ module Geocaching
       cache
     end
 
+    # Returns an array of caches that are located within the given bounds.
+    # If the number of results exceeds 500 caches, a
+    # {Geocaching::TooManyResultsError} exception is raised.
+    #
+    # @param [Array<Numeric>] northeast
+    #   An array containing latitude and longitude of the upper right bound
+    # @param [Array<Numeric>] southwest
+    #   An array containing latitude and longitude of the lower left bound
+    # @return [Array<Geocaching::Cache>]
+    #   Array of caches within given bounds
+    # @raise [ArgumentError]
+    #   Invalid arguments
+    # @raise [Geocaching::TooManyResultsError]
+    #   Number of results exceeds 500 caches
+    def self.within_bounds(northeast, southwest)
+      unless northeast.kind_of?(Array) and southwest.kind_of?(Array)
+        raise ArgumentError, "Arguments must be arrays"
+      end
+
+      unless northeast.size == 2 and southwest.size == 2
+        raise ArgumentError, "Arguments must have two elements"
+      end
+
+      unless northeast.map { |a| a.kind_of?(Numeric) }.all? \
+         and southwest.map { |a| a.kind_of?(Numeric) }.all?
+        raise ArgumentError, "Latitude and longitude must be given as numbers"
+      end
+
+      post_data = {
+        "dto" => {
+          "data" => {
+            "c" => 1,
+            "m" => "",
+            "d" => [northeast[0], southwest[0], northeast[1], southwest[1]].join("|")
+          },
+          "ut" => ""
+        }
+      }
+
+      headers = {
+        "Content-Type" => "application/json; charset=UTF-8"
+      }
+
+      resp, data = HTTP.post("/map/default.aspx/MapAction",
+        JSON.generate(post_data), headers)
+
+      begin
+        outer = JSON.parse(data)
+        raise ExtractError, "Invalid JSON response" unless outer["d"]
+        results = JSON.parse(outer["d"])
+      rescue JSON::JSONError
+        raise ExtractError, "Could not parse response JSON data"
+      end
+
+      raise ExtractError, "Invalid JSON response" unless results["cs"]
+      raise TooManyResultsError if results["cs"]["count"] == 501
+
+      if results["cs"]["cc"].kind_of?(Array)
+        results["cs"]["cc"].map do |result|
+          Cache.new \
+            :name      => result["nn"],
+            :code      => result["gc"],
+            :latitude  => result["lat"],
+            :longitude => result["lon"],
+            :type      => CacheType.for_id(result["ctid"])
+        end
+      else
+        []
+      end
+    end
+
     # Creates a new instance.  The following attributes may be specified
     # as parameters:
     #
@@ -58,7 +130,7 @@ module Geocaching
       @data, @doc, @code, @guid = nil, nil, nil, nil
 
       attributes.each do |key, value|
-        if [:code, :guid, :name, :type].include?(key)
+        if [:code, :guid, :name, :type, :latitude, :longitude].include?(key)
           if key == :type and not value.kind_of?(CacheType)
             raise TypeError, "Attribute `type' must be an instance of Geocaching::CacheType"
           end

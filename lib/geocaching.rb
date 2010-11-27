@@ -54,6 +54,13 @@ module Geocaching
   class TimeoutError < Error
   end
 
+  # This exception is raised if a request exceeds 500 results.
+  class TooManyResultsError < Error
+    def initialize
+      super "Your request exceeded 500 results"
+    end
+  end
+
   # This exception is raised when a method is called that requires
   # the #fetch method to be called first.
   class NotFetchedError < Error

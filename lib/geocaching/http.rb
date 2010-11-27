@@ -62,8 +62,8 @@ module Geocaching
       end
 
       # Alias for +Geocaching::HTTP.instance.post+.
-      def post(path, data = {})
-        self.instance.post(path, data)
+      def post(path, data = {}, extra_headers = {})
+        self.instance.post(path, data, extra_headers)
       end
 
       # Converts HTML entities to the corresponding UTF-8 symbols.
@@ -166,11 +166,14 @@ module Geocaching
     # @return [String] Actual content
     # @raise [Geocaching::TimeoutError] Timeout hit
     # @raise [Geocaching::HTTPError] HTTP request failed
-    def post(path, params = {})
-      params = params.merge(metadata(path)).map { |k,v| "#{k}=#{v}" }.join("&")
+    def post(path, params = {}, extra_headers = {})
+      if params.kind_of?(Hash)
+        params = params.merge(metadata(path)).map { |k,v| "#{k}=#{v}" }.join("&")
+      end
+
       resp = data = nil
 
-      header = default_header
+      header = default_header.merge(extra_headers)
       header["Cookie"] = @cookie if @cookie
 
       begin
