@@ -10,7 +10,7 @@ require "nokogiri"
 #
 # * {Geocaching::LoginError}
 # * {Geocaching::NotFetchedError}
-# * {Geocaching::ExtractError}
+# * {Geocaching::ParseError}
 # * {Geocaching::TimeoutError}
 # * {Geocaching::HTTPError}
 #
@@ -72,7 +72,7 @@ module Geocaching
   # This exception is raised when information could not be
   # extracted out of the website’s HTML code.  For example,
   # this may happen if Groundspeak changed their website.
-  class ExtractError < Error
+  class ParseError < Error
   end
 
   # This exception is raised when a HTTP request failed.

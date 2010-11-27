@@ -95,13 +95,13 @@ module Geocaching
 
       begin
         outer = JSON.parse(data)
-        raise ExtractError, "Invalid JSON response" unless outer["d"]
+        raise ParseError, "Invalid JSON response" unless outer["d"]
         results = JSON.parse(outer["d"])
       rescue JSON::JSONError
-        raise ExtractError, "Could not parse response JSON data"
+        raise ParseError, "Could not parse response JSON data"
       end
 
-      raise ExtractError, "Invalid JSON response" unless results["cs"]
+      raise ParseError, "Invalid JSON response" unless results["cs"]
       raise TooManyResultsError if results["cs"]["count"] == 501
 
       if results["cs"]["cc"].kind_of?(Array)
@@ -172,7 +172,7 @@ module Geocaching
         if elements.size == 1 and elements.first.content =~ /(GC[A-Z0-9]+)/
           HTTP.unescape($1)
         else
-          raise ExtractError, "Could not extract code from website"
+          raise ParseError, "Could not extract code from website"
         end
       end
     end
@@ -192,7 +192,7 @@ module Geocaching
         end
 
         guid || begin
-          raise ExtractError, "Could not extract GUID from website"
+          raise ParseError, "Could not extract GUID from website"
         end
       end
     end
@@ -212,7 +212,7 @@ module Geocaching
         end
 
         id || begin
-          raise ExtractError, "Could not extract ID from website"
+          raise ParseError, "Could not extract ID from website"
         end
       end
     end
@@ -227,7 +227,7 @@ module Geocaching
         if @data =~ /<a.*?title="About Cache Types"><img.*?WptTypes\/(\d+)\.gif".*?<\/a>/
           $1.to_i
         else
-          raise ExtractError, "Could not extract cache type ID from website"
+          raise ParseError, "Could not extract cache type ID from website"
         end
       end
     end
@@ -250,7 +250,7 @@ module Geocaching
         if elements.size == 1
           HTTP.unescape(elements.first.content)
         else
-          raise ExtractError, "Could not extract name from website"
+          raise ParseError, "Could not extract name from website"
         end
       end
     end
@@ -266,7 +266,7 @@ module Geocaching
           @owner_display_name = HTTP.unescape($2)
           User.new(:guid => $1)
         else
-          raise ExtractError, "Could not extract owner from website"
+          raise ParseError, "Could not extract owner from website"
         end
       end
     end
@@ -289,7 +289,7 @@ module Geocaching
         if @data =~ /<strong>\s*?Difficulty:<\/strong>\s*?<img.*?alt="([\d\.]{1,3}) out of 5" \/>/
           $1.to_f
         else
-          raise ExtractError, "Could not extract difficulty rating from website"
+          raise ParseError, "Could not extract difficulty rating from website"
         end
       end
     end
@@ -304,7 +304,7 @@ module Geocaching
         if @data =~ /<strong>\s+?Terrain:<\/strong>\s+?<img.*?alt="([\d\.]{1,3}) out of 5" \/>/
           $1.to_f
         else
-          raise ExtractError, "Could not extract terrain rating from website"
+          raise ParseError, "Could not extract terrain rating from website"
         end
       end
     end
@@ -319,7 +319,7 @@ module Geocaching
         if @data =~ /<strong>\s*?Hidden\s*?:\s*?<\/strong>\s*?(\d{1,2})\/(\d{1,2})\/(\d{4})/
           Time.mktime($3, $1, $2)
         else
-          raise ExtractError, "Could not extract hidden date from website"
+          raise ParseError, "Could not extract hidden date from website"
         end
       end
     end
@@ -335,7 +335,7 @@ module Geocaching
         if @data =~ /<strong>\s*?Event Date:\s*?<\/strong>\s*?\w+, (\d+) (\w+) (\d{4})/
           Time.parse([$1, $2, $3].join)
         else
-          raise ExtractError, "Could not extract event date from website"
+          raise ParseError, "Could not extract event date from website"
         end
       end
     end
@@ -362,7 +362,7 @@ module Geocaching
         end
 
         size || begin
-          raise ExtractError, "Could not extract cache container size from website"
+          raise ParseError, "Could not extract cache container size from website"
         end
       end
     end
@@ -383,7 +383,7 @@ module Geocaching
         end
 
         latitude || begin
-          raise ExtractError, "Could not extract latitude from website"
+          raise ParseError, "Could not extract latitude from website"
         end
       end
     end
@@ -404,7 +404,7 @@ module Geocaching
         end
 
         longitude || begin
-          raise ExtractError, "Could not extract longitude from website"
+          raise ParseError, "Could not extract longitude from website"
         end
       end
     end
@@ -426,7 +426,7 @@ module Geocaching
         end
 
         location || begin
-          raise ExtractError, "Could not extract location from website"
+          raise ParseError, "Could not extract location from website"
         end
       end
     end
@@ -485,7 +485,7 @@ module Geocaching
         tds = @doc.search("table.Table.LogsTable > tr > td")
 
         if tds.size == 0
-          raise ExtractError, "Could not extract logs from website"
+          raise ParseError, "Could not extract logs from website"
         end
 
         tds.each do |td|
@@ -497,7 +497,7 @@ module Geocaching
           log_as  = td.search("small > a[href^='log.aspx']")
 
           unless imgs.size == 1 and user_as.size == 1 and log_as.size == 1
-            raise ExtractError, "Could not extract logs from website"
+            raise ParseError, "Could not extract logs from website"
           end
 
           log_title = imgs.first["title"]
@@ -510,7 +510,7 @@ module Geocaching
           log_title = "Didn't find it" if log_title == "Didn"
 
           unless log_title and user_name and user_guid and log_guid
-            raise ExtractError, "Could not extract logs from website"
+            raise ParseError, "Could not extract logs from website"
           end
 
           user = User.new(:guid => user_guid, :name => user_name)

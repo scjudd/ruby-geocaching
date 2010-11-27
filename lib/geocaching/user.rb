@@ -83,7 +83,7 @@ module Geocaching
         if elements.size == 1 and elements.first.content =~ /Profile for User|Reviewer: (.+)/
           HTTP.unescape($1)
         else
-          raise ExtractError, "Could not extract name from website"
+          raise ParseError, "Could not extract name from website"
         end
       end
     end
@@ -100,7 +100,7 @@ module Geocaching
         if elements.size == 1
           HTTP.unescape(elements.first.content)
         else
-          raise ExtractError, "Could not extract occupation from website"
+          raise ParseError, "Could not extract occupation from website"
         end
       end
     end
@@ -117,7 +117,7 @@ module Geocaching
         if elements.size == 1
           HTTP.unescape(elements.first.content)
         else
-          raise ExtractError, "Could not extract location from website"
+          raise ParseError, "Could not extract location from website"
         end
       end
     end
@@ -134,7 +134,7 @@ module Geocaching
         if elements.size == 1
           HTTP.unescape(elements.first.content)
         else
-          raise ExtractError, "Could not extract forum title from website"
+          raise ParseError, "Could not extract forum title from website"
         end
       end
     end
@@ -163,7 +163,7 @@ module Geocaching
         if elements.size == 1
           HTTP.unescape(elements.first.content).split(",").map(&:strip)
         else
-          raise ExtractError, "Could not extract status from website"
+          raise ParseError, "Could not extract status from website"
         end
       end
     end
@@ -180,7 +180,7 @@ module Geocaching
         if elements.size == 1
           Time.parse(elements.first.content)
         else
-          raise ExtractError, "Could not extract last visit date from website"
+          raise ParseError, "Could not extract last visit date from website"
         end
       end
     end
@@ -197,7 +197,7 @@ module Geocaching
         if elements.size == 1
           Time.parse(elements.first.content)
         else
-          raise ExtractError, "Could not extract member since date from website"
+          raise ParseError, "Could not extract member since date from website"
         end
       end
     end

@@ -107,7 +107,7 @@ module Geocaching
         if elements.size > 0
           User.new(:name => HTTP.unescape(elements.first.inner_html))
         else
-          raise ExtractError, "Could not extract username from website"
+          raise ParseError, "Could not extract username from website"
         end
       end
     end
@@ -124,7 +124,7 @@ module Geocaching
         if elements.size == 1
           Time.parse(elements.first.content)
         else
-          raise ExtractError, "Could not extract date from website"
+          raise ParseError, "Could not extract date from website"
         end
       end
     end
@@ -139,7 +139,7 @@ module Geocaching
         if meta[:description]
           meta[:description].gsub(/\r\n/, "\n")
         else
-          raise ExtractError, "Could not extract message from website"
+          raise ParseError, "Could not extract message from website"
         end
       end
     end
@@ -152,7 +152,7 @@ module Geocaching
         raise NotFetchedError unless fetched?
 
         meta[:url] || begin
-          raise ExtractError, "Could not extract short URL from website"
+          raise ParseError, "Could not extract short URL from website"
         end
       end
     end
@@ -169,7 +169,7 @@ module Geocaching
         imgs = @doc.search("#ctl00_ContentBody_LogBookPanel1_LogImage")
 
         unless imgs.size == 1 and imgs.first["alt"]
-          raise ExtractError, "Could not extract title from website"
+          raise ParseError, "Could not extract title from website"
         end
 
         imgs.first["alt"]
@@ -191,7 +191,7 @@ module Geocaching
           elements[1]["href"] =~ /guid=([a-f0-9-]{36})/
           $1
         else
-          raise ExtractError, "Could not extract cache GUID from website"
+          raise ParseError, "Could not extract cache GUID from website"
         end
       end
     end
