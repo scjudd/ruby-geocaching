@@ -58,7 +58,7 @@ module Geocaching
       raise ArgumentError, "No GUID given" unless @guid
       raise LoginError unless HTTP.loggedin?
 
-      resp, @data = HTTP.get(path)
+      resp, @data = HTTP.get("/seek/log.aspx?LUID=#{@guid}")
       @doc = Nokogiri::HTML.parse(@data)
     end
 
@@ -211,13 +211,6 @@ module Geocaching
 
         info
       end
-    end
-
-    # Returns the HTTP request path.
-    #
-    # @return [String] HTTP request path
-    def path
-      "/seek/log.aspx?LUID=#{@guid}"
     end
   end
 end

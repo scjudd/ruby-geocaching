@@ -28,7 +28,7 @@ module Geocaching
     def fetch
       raise LoginError unless HTTP.loggedin?
 
-      resp, @data = HTTP.get(path)
+      resp, @data = HTTP.get("/my/logs.aspx?s=1")
       @doc = Nokogiri::HTML.parse(@data)
     end
 
@@ -72,13 +72,6 @@ module Geocaching
     end
 
   private
-
-    # Returns the HTTP request path.
-    #
-    # @return [String] HTTP request path
-    def path
-      "/my/logs.aspx?s=1"
-    end
 
     # Extracts information from a HTML table row node.
     #

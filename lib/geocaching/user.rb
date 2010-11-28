@@ -52,7 +52,7 @@ module Geocaching
     def fetch
       raise ArgumentError, "No GUID given" unless @guid
 
-      resp, @data = HTTP.get(path)
+      resp, @data = HTTP.get("/profile/?guid=#{guid}")
       @doc = Nokogiri::HTML.parse(@data)
     end
 
@@ -214,15 +214,6 @@ module Geocaching
     # @return [Boolean] Is user a Premium Member?
     def premium_member?
       status.include?("Premium Member")
-    end
-
-  private
-
-    # Returns the HTTP request path.
-    #
-    # @return [String] HTTP request path
-    def path
-      "/profile/?guid=#{guid}"
     end
   end
 end

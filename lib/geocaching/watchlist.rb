@@ -47,7 +47,7 @@ module Geocaching
         raise LoginError, "You need to be logged in to access your watchlist"
       end
 
-      resp, @data = HTTP.get(path)
+      resp, @data = HTTP.get("/my/watchlist.aspx")
       @doc = Nokogiri::HTML.parse(@data)
     end
 
@@ -60,13 +60,6 @@ module Geocaching
     end
 
   private
-
-    # Returns the HTTP request path.
-    #
-    # @return [String] HTTP request path
-    def path
-      "/my/watchlist.aspx"
-    end
 
     # Returns the information from a HTML table row node.
     #

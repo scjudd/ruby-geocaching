@@ -149,7 +149,8 @@ module Geocaching
     def fetch
       raise ArgumentError, "Neither code nor GUID given" unless @code or @guid
 
-      resp, @data = HTTP.get(path)
+      base_path = "/seek/cache_details.aspx?log=y&"
+      resp, @data = HTTP.get(base_path + (@code ? "wp=#{@code}" : "guid=#{@guid}"))
       @doc = Nokogiri::HTML.parse(@data)
     end
 
@@ -585,15 +586,6 @@ module Geocaching
       end
 
       hash
-    end
-
-  private
-
-    # Returns the HTTP request path.
-    #
-    # @return [String] HTTP request path
-    def path
-      "/seek/cache_details.aspx?log=y&" + (@code ? "wp=#{@code}" : "guid=#{@guid}")
     end
   end
 end
