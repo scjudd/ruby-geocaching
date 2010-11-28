@@ -205,9 +205,8 @@ module Geocaching
         raise NotFetchedError unless fetched?
 
         elements = @doc.search("div.CacheDetailNavigationWidget li a[href^='/seek/log.aspx']")
-        id = nil
 
-        if elements.size == 1 and elements.first["href"] =~ /ID=(\d+)/
+        if elements.size > 0 and elements.first["href"] =~ /ID=(\d+)/
           id = $1.to_i
         end
 
