@@ -10,7 +10,8 @@ module Geocaching
   # == Usage
   #
   #  mylogs = Geocaching::MyLogs.fetch
-  #  puts "I've written #{mylogs.size} logs."
+  #  puts "I've written #{mylogs.logs.size} logs."
+  #
   class MyLogs
     # Creates a new instance and calls {#fetch} afterwards.
     #

@@ -9,11 +9,9 @@ module Geocaching
   #
   #  avail_pqs = Geocaching::PocketQuery.ready_for_download
   #  pq = avail_pqs.first
-  #  
   #  pq.download
-  #  pq.parse
   #  
-  #  puts "The PQ contains #{pq.caches.size} caches."
+  #  puts "The PQ contains #{pq.results} caches."
   #
   # === Reading a Pocket Query from file
   #
