@@ -553,6 +553,40 @@ module Geocaching
       })
     end
 
+    # Returns a hash representing this cache.
+    #
+    # @return [Hash] Hash representing this cache
+    def to_hash
+      hash = {
+        :id         => id,
+        :code       => code,
+        :guid       => guid,
+        :name       => name,
+        :difficulty => difficulty,
+        :terrain    => terrain,
+        :latitude   => latitude,
+        :longitude  => longitude,
+        :size       => size,
+        :type       => type,
+        :location   => location,
+        :owner      => owner,
+        :owner_display_name => owner_display_name,
+        :logs       => logs,
+        :pmonly?    => pmonly?,
+        :archived?  => archived?,
+        :in_review? => in_review?,
+        :unpublished? => unpublished?
+      }
+
+      if [:event, :megaevent, :lfevent, :cito].include?(type)
+        hash[:event_date] = event_date
+      else
+        hash[:hidden_at] = hidden_at
+      end
+
+      hash
+    end
+
   private
 
     # Returns the HTTP request path.
