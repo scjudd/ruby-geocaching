@@ -61,8 +61,8 @@ describe "Geocaching::Cache for b60781d0-0933-426d-9a67-80eb855e87ef (Mega Event
     @cache.logs.size.should >= 1783
   end
 
-  it "should return cache has not been archived" do
-    @cache.archived?.should == false
+  it "should return cache has been archived" do
+    @cache.archived?.should == true
   end
 
   it "should return cache is not PM-only" do
