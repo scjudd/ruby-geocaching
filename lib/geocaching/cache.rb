@@ -579,7 +579,7 @@ module Geocaching
         :unpublished? => unpublished?
       }
 
-      if [:event, :megaevent, :lfevent, :cito].include?(type)
+      if [:event, :megaevent, :lfevent, :cito].include?(type.to_sym)
         hash[:event_date] = event_date
       else
         hash[:hidden_at] = hidden_at
