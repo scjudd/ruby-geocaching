@@ -116,7 +116,7 @@ module Geocaching
       @loggedin = false
       @cookie = nil
 
-      get("/login/default.aspx?RESET=Y")
+      get("/login/default.aspx?RESETCOMPLETE=Y")
     end
 
     # Returns whether you‘ve already logged in.
@@ -147,8 +147,12 @@ module Geocaching
         raise HTTPError
       end
 
-      unless resp.kind_of?(Net::HTTPSuccess) or resp.kind_of?(Net::HTTPRedirection)
-        raise HTTPError
+      unless resp.kind_of?(Net::HTTPSuccess)
+        if resp.kind_of?(Net::HTTPRedirection) and resp.response["location"]
+          resp, data = get(resp.response["location"])
+        else
+          raise HTTPError
+        end
       end
 
       [resp, data]
@@ -187,7 +191,11 @@ module Geocaching
       end
 
       unless resp.kind_of?(Net::HTTPSuccess)
-        raise HTTPError
+        if resp.kind_of?(Net::HTTPRedirection) and resp.response["location"]
+          resp, data = get(resp.response["location"])
+        else
+          raise HTTPError
+        end
       end
 
       [resp, data]
