@@ -85,7 +85,6 @@ module Geocaching
   autoload :Log,          "geocaching/log"
   autoload :LogType,      "geocaching/log_type"
   autoload :MyLogs,       "geocaching/my_logs"
-  autoload :PocketQuery,  "geocaching/pocket_query"
   autoload :User,         "geocaching/user"
   autoload :VERSION,      "geocaching/version"
   autoload :Watchlist,    "geocaching/watchlist"
