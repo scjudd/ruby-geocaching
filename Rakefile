@@ -3,7 +3,7 @@
 task :default => :test
 
 task :test do
-  sh "rspec -c spec"
+  sh "bundle exec rspec -c spec"
 end
 
 task :console do

@@ -58,10 +58,10 @@ Tests
 -----
 
 Tests are written using [RSpec](http://relishapp.com/rspec).
+You need [Bundler](http://gembundler.com/) to run the tests.
 
-    $ export GC_USERNAME="username"
-    $ export GC_PASSWORD="password"
-    $ rake test
+    $ bundle update
+    $ GC_USERNAME="username" GC_PASSWORD="password" bundle exec rake test
 
 Additional environment variables you may specify are:
 
