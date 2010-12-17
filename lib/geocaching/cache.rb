@@ -21,10 +21,6 @@ module Geocaching
   # information are available without being logged in, most information
   # will only be accessible after a successful login.
   #
-  # This class does caching.  That means that multiple calls of, for example,
-  # the {#latitude} method only do one HTTP request.  To override the cached
-  # information, call the {#fetch} method manually.
-  #
   # == Usage
   #
   #  cache = Geocaching::Cache.fetch(:code => "GCTEST")

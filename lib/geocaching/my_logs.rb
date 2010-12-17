@@ -4,9 +4,6 @@ module Geocaching
   # The {MyLogs} class provides access to the logs the user
   # you’re logged in with has written.
   #
-  # This class does caching.  If you want to override the cached information,
-  # call the {#fetch} method manually.
-  #
   # == Usage
   #
   #  mylogs = Geocaching::MyLogs.fetch

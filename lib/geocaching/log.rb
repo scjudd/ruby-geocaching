@@ -2,10 +2,6 @@
 
 module Geocaching
   # The {Log} class represents a log on geocaching.com.
-  #
-  # This class does caching.  That means that multiple calls of, for example,
-  # the {#date} method only do one HTTP request.  If you want to override the
-  # cached information, call the {#fetch} method manually.
   class Log
     # Creates a new instance and calls the {#fetch} method afterwards.
     # +:guid+ must be specified as an attribute.

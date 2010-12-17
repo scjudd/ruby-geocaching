@@ -2,12 +2,6 @@
 
 module Geocaching
   # The {Watchlist} class provides access to the user’s watchlist.
-  #
-  # This method does caching.  That means that multiple calls to, for example,
-  # the {#caches} method do only one HTTP request.  If you want to override
-  # the cached information, call the {#fetch} method manually.  Note that this
-  # only applies to instances of this class, so a HTTP request is made for
-  # every call of the {caches} class method.
   class Watchlist
     # Creates a new instance of this class and calls the {#caches} method.
     #

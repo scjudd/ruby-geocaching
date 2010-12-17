@@ -5,13 +5,11 @@ require "time"
 module Geocaching
   # The {User} class represents a user on geocaching.com.
   #
-  # This class does caching.  If you want to override the cached information,
-  # call the {#fetch} method manually.
-  #
   # == Usage
   #
   #  user = Geocaching::User.fetch(:guid => "...")
   #  puts user.name #=> "Jack"
+  #
   class User
     # Creates a new instance and calls the {fetch} method afterwards.
     # +:guid+ must be given as an attribute.
