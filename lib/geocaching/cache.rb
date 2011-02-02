@@ -257,9 +257,10 @@ module Geocaching
     def owner
       @owner ||= begin
         raise NotFetchedError unless fetched?
+        elements = @doc.search("span.minorCacheDetails a[href*='/profile/?guid=']")
 
-        if @data =~ /<strong>\s*?A[(n\s*?Event)]*\s*?cache\s*?<\/strong>\s*?by\s*?<a.*?guid=([a-f0-9-]{36}).*?>(.*?)<\/a>/
-          @owner_display_name = HTTP.unescape($2)
+        if elements.size == 1 and elements.first["href"] =~ /guid=([a-f0-9-]{36})/
+          @owner_display_name = HTTP.unescape(elements.first.content)
           User.new(:guid => $1)
         else
           raise ParseError, "Could not extract owner from website"
@@ -281,8 +282,9 @@ module Geocaching
     def difficulty
       @difficulty ||= begin
         raise NotFetchedError unless fetched?
+        elements = @doc.search("#ctl00_ContentBody_uxLegendScale img")
 
-        if @data =~ /<strong>\s*?Difficulty:<\/strong>\s*?<img.*?alt="([\d\.]{1,3}) out of 5" \/>/
+        if elements.size == 1 and elements.first["alt"] =~ /([\d\.]{1,3}) out of 5/
           $1.to_f
         else
           raise ParseError, "Could not extract difficulty rating from website"
@@ -296,8 +298,9 @@ module Geocaching
     def terrain
       @terrain ||= begin
         raise NotFetchedError unless fetched?
+        elements = @doc.search("#ctl00_ContentBody_Localize6 img")
 
-        if @data =~ /<strong>\s+?Terrain:<\/strong>\s+?<img.*?alt="([\d\.]{1,3}) out of 5" \/>/
+        if elements.size == 1 and elements.first["alt"] =~ /([\d\.]{1,3}) out of 5/
           $1.to_f
         else
           raise ParseError, "Could not extract terrain rating from website"
@@ -312,7 +315,7 @@ module Geocaching
       @hidden_at ||= begin
         raise NotFetchedError unless fetched?
 
-        if @data =~ /<strong>\s*?Hidden\s*?:\s*?<\/strong>\s*?(\d{1,2})\/(\d{1,2})\/(\d{4})/
+        if @data =~ /<span class="minorCacheDetails">Hidden\s*?:\s*?(\d{1,2})\/(\d{1,2})\/(\d{4})<\/span>/
           Time.mktime($3, $1, $2)
         else
           raise ParseError, "Could not extract hidden date from website"
@@ -328,7 +331,7 @@ module Geocaching
         raise NotFetchedError unless fetched?
         return nil unless [:event, :megaevent, :cito, :lfevent].include?(type.to_sym)
 
-        if @data =~ /<strong>\s*?Event Date:\s*?<\/strong>\s*?\w+, (\d+) (\w+) (\d{4})/
+        if @data =~ /<span class="minorCacheDetails">\s*?Event Date:\s*?\w+, (\d+) (\w+) (\d{4})<\/span>/
           Time.parse([$1, $2, $3].join)
         else
           raise ParseError, "Could not extract event date from website"
